@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.diabefriend.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.DecimalFormat;
 import java.util.Locale;
@@ -20,15 +21,16 @@ import java.util.Locale;
 public class SummaryActivity extends AppCompatActivity {
 
     private static final DecimalFormat decimalFormat = new DecimalFormat("#.##");
-    private static final long TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 7200000;
+    private static final long TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 2000; // 2 hours = 7200000 millis
 
     private Button dosageInformationButton;
     private Measurement measurement;
 
-    private TextView countdownTextView;
-    private Button startButton;
+    private TextView countDownTextView;
+    private FloatingActionButton startButton;
+    private FloatingActionButton resetButton;
 
-    private CountDownTimer countdownTimer;
+    private CountDownTimer countDownTimer;
 
     private long timeLeftInMillis = TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS;
 
@@ -49,7 +51,8 @@ public class SummaryActivity extends AppCompatActivity {
             }
         });
 
-        countdownTextView = findViewById(R.id.countdownView);
+        countDownTextView = findViewById(R.id.countdownView);
+
         startButton = findViewById(R.id.startButtonInSummary);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,12 +61,21 @@ public class SummaryActivity extends AppCompatActivity {
             }
         });
 
+        resetButton = findViewById(R.id.resetButtonInSummary);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetTimer();
+            }
+        });
+
+
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void startTimer() {
-        countdownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeLeftInMillis = millisUntilFinished;
@@ -72,22 +84,35 @@ public class SummaryActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                startButton.setText(R.string.start_button_name);
+                startButton.setVisibility(View.VISIBLE);
             }
         }.start();
 
-        startButton.setText(R.string.running);
+        startButton.setVisibility(View.INVISIBLE);
+
+    }
+
+    private void resetTimer() {
+        countDownTimer.cancel();
+        startButton.setVisibility(View.VISIBLE);
+        timeLeftInMillis = TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS;
+        updateCountdownTextView();
     }
 
     private void updateCountdownTextView() {
         int hours = (int) timeLeftInMillis / 1000 / 60 / 60;
-        int minutes = (int) timeLeftInMillis / 1000 / 60 - 60;
         int seconds = (int) timeLeftInMillis / 1000 % 60;
+
+        int minutes;
+        if (hours > 0) {
+            minutes = (int) timeLeftInMillis / 1000 / 60 - hours * 60;
+        } else {
+            minutes = (int) timeLeftInMillis / 1000 / 60;
+        }
 
         String timeLeftFormattedForTextView = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
 
-        countdownTextView.setText(timeLeftFormattedForTextView);
-
+        countDownTextView.setText(timeLeftFormattedForTextView);
     }
 
     private void dosageInformationDialog(Measurement measurement) {
