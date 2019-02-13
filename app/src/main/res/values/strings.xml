@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">DiaBeFriend</string>
+    <string name="action_settings">Settings</string>
+    <string name="start_button_name">Start</string>
+    <string name="title_activity_start">StartActivity</string>
+    <string name="carbohydrates_in_grams">Carbohydrates in grams:</string>
+    <string name="carbohydrates_in_grams_hint">100</string>
+    <string name="insulin_in_units">Insulin in units:</string>
+    <string name="insulin_in_units_hint">10.0</string>
+    <string name="submit">Submit</string>
+</resources>
