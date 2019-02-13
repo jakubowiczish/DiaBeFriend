@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.SummaryActivity"
+            android:name=".activities.TimerActivity"
             android:label="@string/title_activity_summary"
             android:parentActivityName=".activities.StartActivity"
             android:theme="@style/AppTheme.NoActionBar">

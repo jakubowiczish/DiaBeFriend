@@ -68,7 +68,7 @@ public class StartActivity extends AppCompatActivity {
                     Float.valueOf(insulinUnitsInput.getText().toString())
             );
 
-            Intent intent = new Intent(this, SummaryActivity.class);
+            Intent intent = new Intent(this, TimerActivity.class);
             intent.putExtra("measurement", measurement);
             startActivity(intent);
         } else {
