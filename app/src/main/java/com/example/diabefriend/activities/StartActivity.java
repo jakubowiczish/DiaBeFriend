@@ -14,12 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.text.DecimalFormat;
-
 public class StartActivity extends AppCompatActivity {
-
-    private static final DecimalFormat decimalFormat = new DecimalFormat("#.##");
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +64,6 @@ public class StartActivity extends AppCompatActivity {
                     Float.valueOf(insulinUnitsInput.getText().toString())
             );
 
-
             Intent intent = new Intent(this, SummaryActivity.class);
             intent.putExtra("measurement", measurement);
             startActivity(intent);
@@ -79,7 +73,7 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void openDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(StartActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(StartActivity.this, R.style.AlertDialogCustom);
         builder.setTitle(R.string.invalid_input_dialog).setMessage(R.string.try_again_dialog);
 
         AlertDialog invalidInputDialog = builder.create();
