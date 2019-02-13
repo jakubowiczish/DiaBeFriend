@@ -15,6 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class StartActivity extends AppCompatActivity {
+
+    private EditText carbohydratesInGramsInput;
+    private EditText insulinUnitsInput;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,8 +26,8 @@ public class StartActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final EditText carbohydratesInGramsInput = findViewById(R.id.carbohydratesInGramsInput);
-        final EditText insulinUnitsInput = findViewById(R.id.insulinInUnitsInput);
+        carbohydratesInGramsInput = findViewById(R.id.carbohydratesInGramsInput);
+        insulinUnitsInput = findViewById(R.id.insulinInUnitsInput);
 
         Button submitButton = findViewById(R.id.submitButton);
         submitButton.setOnClickListener(new View.OnClickListener() {

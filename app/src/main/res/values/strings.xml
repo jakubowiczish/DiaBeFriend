@@ -13,4 +13,10 @@
     <string name="try_again_dialog">Try again!</string>
     <string name="dosage_information_title">Dosage information:</string>
     <string name="dosage_information_button_text">Dosage information</string>
+    <string name="information_about_count_down">
+        Once you\'ve started your meal, hit the start button.
+        You will be reminded to test your sugar level within 2 hours
+    </string>
+    <string name="time_0">00:00:00</string>
+    <string name="running">running…</string>
 </resources>
