@@ -9,4 +9,6 @@
     <string name="insulin_in_units_hint">10.0</string>
     <string name="submit">Submit</string>
     <string name="title_activity_summary">SummaryActivity</string>
+    <string name="invalid_input_dialog">Invalid input</string>
+    <string name="try_again_dialog">Try again!</string>
 </resources>

@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.diabefriend.R;
-import com.example.diabefriend.dialogs.DialogWindow;
 import com.example.diabefriend.model.Measurement;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -36,7 +34,7 @@ public class StartActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submitButtonOnClick(carbohydratesInGramsInput, insulinUnitsInput);
+                handleUserInput(carbohydratesInGramsInput, insulinUnitsInput);
             }
         });
 
@@ -62,19 +60,30 @@ public class StartActivity extends AppCompatActivity {
     }
 
 
-    public void submitButtonOnClick(EditText carbohydratesInGramsInput, EditText insulinUnitsInput) {
+    public void handleUserInput(EditText carbohydratesInGramsInput, EditText insulinUnitsInput) {
         boolean isInputValid = checkWhetherInputIsValid(carbohydratesInGramsInput, insulinUnitsInput);
 
         if (isInputValid) {
-            startActivity(new Intent(StartActivity.this, SummaryActivity.class));
+            Measurement measurement = new Measurement(
+                    Integer.valueOf(carbohydratesInGramsInput.getText().toString()),
+                    Float.valueOf(insulinUnitsInput.getText().toString())
+            );
+
+
+            Intent intent = new Intent(this, SummaryActivity.class);
+            intent.putExtra("measurement", measurement);
+            startActivity(intent);
         } else {
             openDialog();
         }
     }
 
     private void openDialog() {
-        DialogWindow dialogWindow = new DialogWindow();
-        dialogWindow.show(getSupportFragmentManager(), "invalid input dialog");
+        AlertDialog.Builder builder = new AlertDialog.Builder(StartActivity.this);
+        builder.setTitle(R.string.invalid_input_dialog).setMessage(R.string.try_again_dialog);
+
+        AlertDialog invalidInputDialog = builder.create();
+        invalidInputDialog.show();
     }
 
 }
