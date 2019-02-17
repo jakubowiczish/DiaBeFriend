@@ -1,6 +1,7 @@
 package com.example.diabefriend.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.diabefriend.R;
@@ -11,6 +12,9 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +24,36 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Button startButton = findViewById(R.id.startButton);
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onStartClick();
+            }
+        });
+        if (TimerActivity.mTimerIsRunning) {
+            startButton.setEnabled(false);
+        }
+
+        Button lastMeasurement = findViewById(R.id.lastMeasurementButton);
+        lastMeasurement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onLastMeasurementClick();
+            }
+        });
+//        Class<?> activityClass;
+//
+//        try {
+//            SharedPreferences prefs = getSharedPreferences("X", MODE_PRIVATE);
+//            activityClass = Class.forName(
+//                    Objects.requireNonNull(prefs.getString("lastActivity", TimerActivity.class.getName())));
+//        } catch (ClassNotFoundException ex) {
+//            activityClass = MainActivity.class;
+//        }
+//
+//        startActivity(new Intent(this, activityClass));
     }
 
     @Override
@@ -44,13 +78,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onClick(View view) {
-        Intent intent;
+    private void onStartClick() {
+        startActivity(new Intent(this, StartActivity.class));
+    }
 
-        switch (view.getId()) {
-            case R.id.startButton:
-                intent = new Intent(this, StartActivity.class);
-                startActivity(intent);
-        }
+    private void onLastMeasurementClick() {
+        startActivity(new Intent(this, TimerActivity.class));
     }
 }

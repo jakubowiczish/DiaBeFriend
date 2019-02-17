@@ -20,6 +20,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_summary" />
+    <include layout="@layout/content_timer" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

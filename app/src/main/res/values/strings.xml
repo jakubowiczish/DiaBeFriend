@@ -19,4 +19,5 @@
     </string>
     <string name="time_0">00:00:00</string>
     <string name="running">running…</string>
+    <string name="last_measurement_button_name">Last measurement</string>
 </resources>

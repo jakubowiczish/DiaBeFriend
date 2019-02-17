@@ -16,6 +16,7 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 import com.example.diabefriend.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
 import java.text.DecimalFormat;
 import java.util.Locale;
@@ -28,6 +29,8 @@ public class TimerActivity extends AppCompatActivity {
     private static final String endTimeString = "endTime";
     private static final String preferencesString = "preferences";
     private static final String progressBarStatusString = "progressBarStatus";
+    private static final String timerIsRunningString = "timerIsRunning";
+    private static final String measurementString = "measurement";
 
     private Button mDosageInformationButton;
     private Measurement measurement;
@@ -37,6 +40,7 @@ public class TimerActivity extends AppCompatActivity {
     private FloatingActionButton mResetButton;
 
     private CountDownTimer mCountDownTimer;
+    public static boolean mTimerIsRunning;
 
     private MaterialProgressBar mProgressBar;
     private int mProgressBarStatus = 0;
@@ -47,7 +51,7 @@ public class TimerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_summary);
+        setContentView(R.layout.activity_timer);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -86,39 +90,84 @@ public class TimerActivity extends AppCompatActivity {
 
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        SharedPreferences preferences = getSharedPreferences(preferencesString, MODE_PRIVATE);
+
+        mTimerIsRunning = preferences.getBoolean(timerIsRunningString, false);
+        mTimeLeftInMillis = preferences.getLong(millisLeftString, TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS);
+
+        updateCountDownTextView();
+
+        if (mTimerIsRunning) {
+            measurement = createMeasurementFromJson(preferences);
+            mEndTime = preferences.getLong(endTimeString, 0);
+            mTimeLeftInMillis = mEndTime - System.currentTimeMillis();
+
+            mProgressBar = findViewById(R.id.progressBar);
+            mProgressBarStatus = preferences.getInt(progressBarStatusString, 0);
+            mProgressBar.setProgress(mProgressBarStatus);
+
+            if (mTimeLeftInMillis < 0) {
+                mTimeLeftInMillis = 0;
+                mTimerIsRunning = false;
+                updateCountDownTextView();
+            } else {
+                startTimer();
+            }
+        }
+
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
 
         SharedPreferences preferences = getSharedPreferences(preferencesString, MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
+        editor.putString(measurementString, createMeasurementJsonString());
+        editor.putBoolean(timerIsRunningString, mTimerIsRunning);
         editor.putLong(millisLeftString, mTimeLeftInMillis);
         editor.putLong(endTimeString, mEndTime);
         editor.putInt(progressBarStatusString, mProgressBarStatus);
 
         editor.apply();
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        SharedPreferences preferences = getSharedPreferences(preferencesString, MODE_PRIVATE);
-
-        mEndTime = preferences.getLong(endTimeString, 0);
-        mTimeLeftInMillis = mEndTime - System.currentTimeMillis();
-        mProgressBar = findViewById(R.id.progressBar);
-        mProgressBarStatus = preferences.getInt(progressBarStatusString, 0);
-        mProgressBar.setProgress(mProgressBarStatus);
-
-        if (mTimeLeftInMillis < 0) {
-            resetTimer();
-        } else {
-            startTimer();
+        if (mCountDownTimer != null) {
+            mCountDownTimer.cancel();
         }
-
-        updateCountDownTextView();
     }
+
+    private String createMeasurementJsonString() {
+        return new Gson().toJson(measurement);
+    }
+
+    private Measurement createMeasurementFromJson(SharedPreferences preferences) {
+        String measurementJson = preferences.getString(measurementString, "");
+        return new Gson().fromJson(measurementJson, Measurement.class);
+    }
+
+
+//    @Override
+//    public void onBackPressed() {
+//        if (!mTimerIsRunning) {
+//            super.onBackPressed();
+//        }
+//    }
+
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//
+//        if (mTimerIsRunning) {
+//            SharedPreferences prefs = getSharedPreferences("X", MODE_PRIVATE);
+//            SharedPreferences.Editor editor = prefs.edit();
+//            editor.putString("lastActivity", getClass().getName());
+//            editor.apply();
+//        }
+//    }
 
 
     private void startTimer() {
@@ -128,9 +177,8 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 mTimeLeftInMillis = millisUntilFinished;
+                updateProgressBar();
                 updateCountDownTextView();
-                mProgressBarStatus++;
-                mProgressBar.setProgress(mProgressBarStatus * 100 / (TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS / 1000));
             }
 
             @Override
@@ -141,6 +189,7 @@ public class TimerActivity extends AppCompatActivity {
             }
         }.start();
 
+        mTimerIsRunning = true;
         mStartButton.setVisibility(View.INVISIBLE);
     }
 
@@ -149,10 +198,16 @@ public class TimerActivity extends AppCompatActivity {
         if (mCountDownTimer != null) {
             mCountDownTimer.cancel();
         }
+        mTimerIsRunning = false;
         mStartButton.setVisibility(View.VISIBLE);
         mTimeLeftInMillis = TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS;
         updateCountDownTextView();
         resetProgressBar();
+    }
+
+    private void updateProgressBar() {
+        mProgressBarStatus++;
+        mProgressBar.setProgress(mProgressBarStatus * 100 / (TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS / 1000));
     }
 
     private void resetProgressBar() {
@@ -193,6 +248,4 @@ public class TimerActivity extends AppCompatActivity {
         AlertDialog invalidInputDialog = builder.create();
         invalidInputDialog.show();
     }
-
-
 }
