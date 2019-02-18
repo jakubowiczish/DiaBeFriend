@@ -1,5 +1,8 @@
 package com.example.diabefriend.activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -7,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.diabefriend.model.Alarm;
 import com.example.diabefriend.model.Measurement;
 
 import androidx.appcompat.app.AlertDialog;
@@ -24,7 +28,7 @@ import java.util.Locale;
 public class TimerActivity extends AppCompatActivity {
 
     private static final DecimalFormat decimalFormat = new DecimalFormat("#.##");
-    private static final int TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 50000; // 2 hours = 7200000 millis
+    private static final int TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 5000; // 2 hours = 7200000 millis
     private static final String millisLeftString = "millisLeftString";
     private static final String endTimeString = "endTime";
     private static final String preferencesString = "preferences";
@@ -72,6 +76,7 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startTimer();
+                handleAlarm();
             }
         });
 
@@ -86,6 +91,13 @@ public class TimerActivity extends AppCompatActivity {
         mProgressBar = findViewById(R.id.progressBar);
 
         updateCountDownTextView();
+    }
+
+    private void handleAlarm() {
+        Intent intent = new Intent(this, Alarm.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent);
     }
 
 

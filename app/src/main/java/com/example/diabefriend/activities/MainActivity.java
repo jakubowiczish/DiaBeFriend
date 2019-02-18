@@ -9,11 +9,13 @@ import com.example.diabefriend.R;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import java.sql.Time;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
                 onStartClick();
             }
         });
+
         if (TimerActivity.mTimerIsRunning) {
             startButton.setEnabled(false);
         }

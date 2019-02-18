@@ -19,6 +19,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.diabefriend.activities.StartActivity" />
         </activity>
+        <receiver android:name=".model.Alarm"/>
         <activity
             android:name=".activities.StartActivity"
             android:label="@string/title_activity_start"
