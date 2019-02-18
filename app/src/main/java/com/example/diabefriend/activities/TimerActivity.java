@@ -28,7 +28,7 @@ import java.util.Locale;
 public class TimerActivity extends AppCompatActivity {
 
     private static final DecimalFormat decimalFormat = new DecimalFormat("#.##");
-    private static final int TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 5000; // 2 hours = 7200000 millis
+    private static final int TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 50000; // 2 hours = 7200000 millis
     private static final String millisLeftString = "millisLeftString";
     private static final String endTimeString = "endTime";
     private static final String preferencesString = "preferences";
@@ -76,7 +76,7 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startTimer();
-                handleAlarm();
+                setAlarm();
             }
         });
 
@@ -93,11 +93,11 @@ public class TimerActivity extends AppCompatActivity {
         updateCountDownTextView();
     }
 
-    private void handleAlarm() {
+    private void setAlarm() {
         Intent intent = new Intent(this, Alarm.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS, pendingIntent);
     }
 
 
@@ -117,8 +117,9 @@ public class TimerActivity extends AppCompatActivity {
             mEndTime = preferences.getLong(endTimeString, 0);
             mTimeLeftInMillis = mEndTime - System.currentTimeMillis();
 
+            mProgressBarStatus = countProgressBarStatus(mTimeLeftInMillis);
             mProgressBar = findViewById(R.id.progressBar);
-            mProgressBarStatus = preferences.getInt(progressBarStatusString, 0);
+//            mProgressBarStatus = preferences.getInt(progressBarStatusString, 0);
             mProgressBar.setProgress(mProgressBarStatus);
 
             if (mTimeLeftInMillis < 0) {
@@ -151,6 +152,7 @@ public class TimerActivity extends AppCompatActivity {
             mCountDownTimer.cancel();
         }
     }
+
 
     private String createMeasurementJsonString() {
         return new Gson().toJson(measurement);
@@ -217,8 +219,14 @@ public class TimerActivity extends AppCompatActivity {
         resetProgressBar();
     }
 
+    private int countProgressBarStatus(long timeLeftInMillis) {
+        return (int) (((TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS - timeLeftInMillis) / 1000));
+    }
+
     private void updateProgressBar() {
         mProgressBarStatus++;
+        System.out.println(mProgressBarStatus);
+        System.out.println(mTimeLeftInMillis);
         mProgressBar.setProgress(mProgressBarStatus * 100 / (TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS / 1000));
     }
 
@@ -247,13 +255,18 @@ public class TimerActivity extends AppCompatActivity {
 
     private void showDosageInformationDialog(Measurement measurement) {
         AlertDialog.Builder builder = new AlertDialog.Builder(TimerActivity.this, R.style.AlertDialogCustom);
+        String dosageMessage;
+        if (measurement == null) {
+            dosageMessage = "Error! No information about the measurement has been found";
+        } else {
+            float insulinUnitsPerGrams = measurement.getInsulinInUnits() * 10 / measurement.getCarbohydratesInGrams();
+            String insulinUnitsPerGramsString = decimalFormat.format(insulinUnitsPerGrams);
 
-        float insulinUnitsPerGrams = measurement.getInsulinInUnits() * 10 / measurement.getCarbohydratesInGrams();
-        String insulinUnitsPerGramsString = decimalFormat.format(insulinUnitsPerGrams);
+            dosageMessage = "You gave yourself " + measurement.getCarbohydratesInGrams() +
+                    " grams of carbohydrates and " + measurement.getInsulinInUnits() + " insulin units" +
+                    " (" + insulinUnitsPerGramsString + " insulin units for every 10 grams of carbohydrates)";
 
-        String dosageMessage = "You gave yourself " + measurement.getCarbohydratesInGrams() +
-                " grams of carbohydrates and " + measurement.getInsulinInUnits() + " insulin units" +
-                " (" + insulinUnitsPerGramsString + " insulin units for every 10 grams of carbohydrates)";
+        }
 
         builder.setTitle(R.string.dosage_information_title).setMessage(dosageMessage);
 
