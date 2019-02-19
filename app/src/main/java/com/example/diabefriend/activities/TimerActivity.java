@@ -1,6 +1,8 @@
 package com.example.diabefriend.activities;
 
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,9 +19,11 @@ import com.example.diabefriend.model.Measurement;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 import com.example.diabefriend.R;
+import com.example.diabefriend.model.NotificationChannels;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
@@ -29,7 +33,7 @@ import java.util.Locale;
 public class TimerActivity extends AppCompatActivity {
 
     private static final DecimalFormat decimalFormat = new DecimalFormat("#.##");
-    private static final int TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 20000; // 2 hours = 7200000 millis
+    private static final int TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 7000; // 2 hours = 7200000 millis
     private static final String millisLeftString = "millisLeftString";
     private static final String endTimeString = "endTime";
     private static final String preferencesString = "preferences";
@@ -197,6 +201,7 @@ public class TimerActivity extends AppCompatActivity {
                 mStartButton.setVisibility(View.VISIBLE);
                 resetProgressBar();
                 resetTimer();
+//                notifyUserAboutTestingSugarLevel();
             }
         }.start();
 
@@ -204,6 +209,29 @@ public class TimerActivity extends AppCompatActivity {
         mStartButton.setVisibility(View.INVISIBLE);
     }
 
+    public void notifyUserAboutTestingSugarLevel() {
+        Intent intent = new Intent(this, SummaryActivity.class);
+        intent.putExtra("measurement", measurement);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 2, intent, 0);
+
+        NotificationCompat.Action action = new NotificationCompat.Action.Builder(
+                android.R.drawable.sym_action_chat,
+                "Open",
+                pendingIntent
+        ).build();
+
+        Notification notification = new NotificationCompat.Builder(this, NotificationChannels.CHANNEL_ONE_ID)
+                .setSmallIcon(R.drawable.ic_info)
+                .setContentTitle(getResources().getString(R.string.it_is_time))
+                .setContentText(getResources().getString(R.string.test_your_sugar_level))
+                .addAction(action)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .build();
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(1, notification);
+    }
 
     private void resetTimer() {
         if (mCountDownTimer != null) {

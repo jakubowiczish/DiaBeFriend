@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         Button currentMeasurement = findViewById(R.id.currentMeasurementButton);
         currentMeasurement.setOnClickListener(new View.OnClickListener() {
             @Override

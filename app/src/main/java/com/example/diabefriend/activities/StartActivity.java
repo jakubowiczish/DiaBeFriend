@@ -76,6 +76,7 @@ public class StartActivity extends AppCompatActivity {
         }
     }
 
+
     private void openDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(StartActivity.this, R.style.AlertDialogCustom);
         builder.setTitle(R.string.invalid_input_dialog).setMessage(R.string.try_again_dialog);
