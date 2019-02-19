@@ -2,6 +2,7 @@ package com.example.diabefriend.activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -28,7 +29,7 @@ import java.util.Locale;
 public class TimerActivity extends AppCompatActivity {
 
     private static final DecimalFormat decimalFormat = new DecimalFormat("#.##");
-    private static final int TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 50000; // 2 hours = 7200000 millis
+    private static final int TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 20000; // 2 hours = 7200000 millis
     private static final String millisLeftString = "millisLeftString";
     private static final String endTimeString = "endTime";
     private static final String preferencesString = "preferences";
@@ -84,22 +85,35 @@ public class TimerActivity extends AppCompatActivity {
         mResetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resetTimer();
+                timerResetButtonDialog();
             }
         });
 
         mProgressBar = findViewById(R.id.progressBar);
 
+        if (!mTimerIsRunning) {
+            mTimeLeftInMillis = TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS;
+            resetProgressBar();
+            updateCountDownTextView();
+        }
         updateCountDownTextView();
+
     }
 
     private void setAlarm() {
         Intent intent = new Intent(this, Alarm.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, intent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS, pendingIntent);
+
     }
 
+    private void cancelAlarm() {
+        Intent intent = new Intent(this, Alarm.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
+    }
 
     @Override
     protected void onStart() {
@@ -119,7 +133,6 @@ public class TimerActivity extends AppCompatActivity {
 
             mProgressBarStatus = countProgressBarStatus(mTimeLeftInMillis);
             mProgressBar = findViewById(R.id.progressBar);
-//            mProgressBarStatus = preferences.getInt(progressBarStatusString, 0);
             mProgressBar.setProgress(mProgressBarStatus);
 
             if (mTimeLeftInMillis < 0) {
@@ -153,6 +166,11 @@ public class TimerActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, MainActivity.class));
+    }
 
     private String createMeasurementJsonString() {
         return new Gson().toJson(measurement);
@@ -162,27 +180,6 @@ public class TimerActivity extends AppCompatActivity {
         String measurementJson = preferences.getString(measurementString, "");
         return new Gson().fromJson(measurementJson, Measurement.class);
     }
-
-
-//    @Override
-//    public void onBackPressed() {
-//        if (!mTimerIsRunning) {
-//            super.onBackPressed();
-//        }
-//    }
-
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//
-//        if (mTimerIsRunning) {
-//            SharedPreferences prefs = getSharedPreferences("X", MODE_PRIVATE);
-//            SharedPreferences.Editor editor = prefs.edit();
-//            editor.putString("lastActivity", getClass().getName());
-//            editor.apply();
-//        }
-//    }
-
 
     private void startTimer() {
         mEndTime = System.currentTimeMillis() + mTimeLeftInMillis;
@@ -225,8 +222,6 @@ public class TimerActivity extends AppCompatActivity {
 
     private void updateProgressBar() {
         mProgressBarStatus++;
-        System.out.println(mProgressBarStatus);
-        System.out.println(mTimeLeftInMillis);
         mProgressBar.setProgress(mProgressBarStatus * 100 / (TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS / 1000));
     }
 
@@ -254,7 +249,8 @@ public class TimerActivity extends AppCompatActivity {
 
 
     private void showDosageInformationDialog(Measurement measurement) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(TimerActivity.this, R.style.AlertDialogCustom);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
+
         String dosageMessage;
         if (measurement == null) {
             dosageMessage = "Error! No information about the measurement has been found";
@@ -272,5 +268,32 @@ public class TimerActivity extends AppCompatActivity {
 
         AlertDialog invalidInputDialog = builder.create();
         invalidInputDialog.show();
+    }
+
+    private void timerResetButtonDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Confirm");
+        builder.setMessage("Are you sure? Measurement data will be lost");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                resetTimer();
+                cancelAlarm();
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

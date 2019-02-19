@@ -19,5 +19,9 @@
     </string>
     <string name="time_0">00:00:00</string>
     <string name="running">running…</string>
-    <string name="last_measurement_button_name">Last measurement</string>
+    <string name="current_measurement_button_name">Current measurement</string>
+    <string name="unable_to_start_measurement_title">Unable to start new measurement!</string>
+    <string name="existing_measurement_in_the_background">There is already an existing measurement in the background!</string>
+    <string name="unable_to_find_current_measurement_title">No measurement is found!</string>
+    <string name="no_existing_measurement">There is no measurement available at the moment</string>
 </resources>
