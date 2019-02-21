@@ -1,8 +1,7 @@
 package com.example.diabefriend.activities;
 
 import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationManager;
+
 import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,33 +12,35 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.diabefriend.dialogs.DialogsManager;
 import com.example.diabefriend.model.Alarm;
 import com.example.diabefriend.model.Measurement;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NotificationCompat;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 import com.example.diabefriend.R;
-import com.example.diabefriend.model.NotificationChannels;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
+import java.sql.Time;
 import java.text.DecimalFormat;
 import java.util.Locale;
 
 public class TimerActivity extends AppCompatActivity {
 
-    private static final DecimalFormat decimalFormat = new DecimalFormat("#.##");
-    private static final int TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 7000; // 2 hours = 7200000 millis
+    public static final DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+    private static final int TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 3000; // 2 hours = 7200000 millis
     private static final String millisLeftString = "millisLeftString";
     private static final String endTimeString = "endTime";
     private static final String preferencesString = "preferences";
     private static final String progressBarStatusString = "progressBarStatus";
     private static final String timerIsRunningString = "timerIsRunning";
     private static final String measurementString = "measurement";
+    private DialogsManager dialogsManager;
 
     private Button mDosageInformationButton;
     private Measurement measurement;
@@ -66,6 +67,7 @@ public class TimerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timer);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        dialogsManager = new DialogsManager();
 
         measurement = getIntent().getParcelableExtra("measurement");
 
@@ -73,7 +75,7 @@ public class TimerActivity extends AppCompatActivity {
         mDosageInformationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDosageInformationDialog(measurement);
+                dialogsManager.showDosageInformationDialog(measurement, TimerActivity.this);
             }
         });
 
@@ -272,29 +274,6 @@ public class TimerActivity extends AppCompatActivity {
         countDownTextView.setText(timeLeftFormattedForTextView);
     }
 
-
-    private void showDosageInformationDialog(Measurement measurement) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
-
-        String dosageMessage;
-        if (measurement == null) {
-            dosageMessage = "Error! No information about the measurement has been found";
-        } else {
-            float insulinUnitsPerGrams = measurement.getInsulinInUnits() * 10 / measurement.getCarbohydratesInGrams();
-            String insulinUnitsPerGramsString = decimalFormat.format(insulinUnitsPerGrams);
-
-            dosageMessage = "You gave yourself "
-                    + measurement.getCarbohydratesInGrams() + " grams of carbohydrates and "
-                    + measurement.getInsulinInUnits() + " insulin units\n" +
-                    "(" + insulinUnitsPerGramsString + " insulin units for every 10 grams of carbohydrates).\n" +
-                    "Your blood sugar level before the meal was " + measurement.getSugarLevel();
-        }
-
-        builder.setTitle(R.string.dosage_information_title).setMessage(dosageMessage);
-
-        AlertDialog invalidInputDialog = builder.create();
-        invalidInputDialog.show();
-    }
 
     private void showSummarizeDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

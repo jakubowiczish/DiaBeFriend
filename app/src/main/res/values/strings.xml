@@ -30,4 +30,6 @@
     <string name="it_is_time">Hey! It\'s time</string>
     <string name="test_your_sugar_level">Test your sugar level!</string>
     <string name="summarize_button_name">Summarize</string>
+    <string name="sugar_level_after_2hours">Blood sugar level after 2 hours:</string>
+    <string name="submit_and_summarize">Submit and summarize</string>
 </resources>

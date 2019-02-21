@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.diabefriend.R;
+import com.example.diabefriend.dialogs.DialogsManager;
 import com.example.diabefriend.model.Measurement;
 
 import androidx.appcompat.app.AlertDialog;
@@ -20,12 +21,15 @@ public class StartActivity extends AppCompatActivity {
     private EditText insulinUnitsInput;
     private EditText sugarLevelInput;
 
+    private DialogsManager dialogsManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        dialogsManager = new DialogsManager();
 
         carbohydratesInGramsInput = findViewById(R.id.carbohydratesInGramsInput);
         insulinUnitsInput = findViewById(R.id.insulinInUnitsInput);
@@ -79,17 +83,9 @@ public class StartActivity extends AppCompatActivity {
             intent.putExtra("measurement", measurement);
             startActivity(intent);
         } else {
-            openInvalidInputDialog();
+            dialogsManager.openInvalidInputDialog(this);
         }
     }
 
-
-    private void openInvalidInputDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(StartActivity.this, R.style.AlertDialogCustom);
-        builder.setTitle(R.string.invalid_input_dialog).setMessage(R.string.try_again_dialog);
-
-        AlertDialog invalidInputDialog = builder.create();
-        invalidInputDialog.show();
-    }
 
 }
