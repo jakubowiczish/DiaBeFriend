@@ -57,6 +57,8 @@ public class TimerActivity extends AppCompatActivity {
     private long mTimeLeftInMillis = TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS;
     private long mEndTime;
 
+    private Button mSummarizeButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +94,17 @@ public class TimerActivity extends AppCompatActivity {
                 timerResetButtonDialog();
             }
         });
+
+        mSummarizeButton = findViewById(R.id.summarizeButton);
+        mSummarizeButton.setVisibility(View.INVISIBLE);
+        mSummarizeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSummarizeDialog();
+            }
+        });
+
+
 
         mProgressBar = findViewById(R.id.progressBar);
 
@@ -201,37 +214,15 @@ public class TimerActivity extends AppCompatActivity {
                 mStartButton.setVisibility(View.VISIBLE);
                 resetProgressBar();
                 resetTimer();
-//                notifyUserAboutTestingSugarLevel();
+                mSummarizeButton.setVisibility(View.VISIBLE);
             }
         }.start();
 
         mTimerIsRunning = true;
         mStartButton.setVisibility(View.INVISIBLE);
+        mSummarizeButton.setVisibility(View.INVISIBLE);
     }
 
-    public void notifyUserAboutTestingSugarLevel() {
-        Intent intent = new Intent(this, SummaryActivity.class);
-        intent.putExtra("measurement", measurement);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 2, intent, 0);
-
-        NotificationCompat.Action action = new NotificationCompat.Action.Builder(
-                android.R.drawable.sym_action_chat,
-                "Open",
-                pendingIntent
-        ).build();
-
-        Notification notification = new NotificationCompat.Builder(this, NotificationChannels.CHANNEL_ONE_ID)
-                .setSmallIcon(R.drawable.ic_info)
-                .setContentTitle(getResources().getString(R.string.it_is_time))
-                .setContentText(getResources().getString(R.string.test_your_sugar_level))
-                .addAction(action)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .build();
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(1, notification);
-    }
 
     private void resetTimer() {
         if (mCountDownTimer != null) {
@@ -296,6 +287,30 @@ public class TimerActivity extends AppCompatActivity {
 
         AlertDialog invalidInputDialog = builder.create();
         invalidInputDialog.show();
+    }
+
+    private void showSummarizeDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Summary");
+        builder.setMessage("Provide information after testing sugar level, go to the next screen");
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                goToSummaryActivity();
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void goToSummaryActivity() {
+        Intent intent = new Intent(this, SummaryActivity.class);
+        intent.putExtra(measurementString, measurement);
+        startActivity(intent);
     }
 
     private void timerResetButtonDialog() {

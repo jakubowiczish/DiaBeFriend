@@ -12,7 +12,7 @@ import android.net.Uri;
 import android.widget.Toast;
 
 import com.example.diabefriend.R;
-import com.example.diabefriend.activities.SummaryActivity;
+import com.example.diabefriend.activities.TimerActivity;
 
 import androidx.core.app.NotificationCompat;
 
@@ -28,7 +28,7 @@ public class Alarm extends BroadcastReceiver {
     }
 
     public void notifyUserAboutTestingSugarLevel(Context context) {
-        Intent intent = new Intent(context, SummaryActivity.class);
+        Intent intent = new Intent(context, TimerActivity.class);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 2, intent, 0);
 
