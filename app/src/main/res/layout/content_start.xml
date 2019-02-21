@@ -18,8 +18,10 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/carbohydratesInGramsText"
@@ -52,6 +54,22 @@
             android:gravity="center"
             android:hint="@string/insulin_in_units_hint"
             android:inputType="numberDecimal" />
+
+        <TextView
+            android:id="@+id/bloodSugarLevel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/sugar_level_in_mgdL" />
+
+        <EditText
+            android:id="@+id/sugarLevelInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="@string/sugar_level_hint"
+            android:inputType="numberSigned" />
 
         <Button
             android:id="@+id/submitButton"

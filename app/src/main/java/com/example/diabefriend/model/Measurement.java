@@ -7,15 +7,18 @@ import android.os.Parcelable;
 public class Measurement implements Parcelable {
     private int carbohydratesInGrams;
     private float insulinInUnits;
+    private int sugarLevel;
 
-    public Measurement(int carbohydratesInGrams, float insulinInUnits) {
+    public Measurement(int carbohydratesInGrams, float insulinInUnits, int sugarLevel) {
         this.carbohydratesInGrams = carbohydratesInGrams;
         this.insulinInUnits = insulinInUnits;
+        this.sugarLevel = sugarLevel;
     }
 
     public Measurement(Parcel in) {
         this.carbohydratesInGrams = in.readInt();
         this.insulinInUnits = in.readFloat();
+        this.sugarLevel = in.readInt();
     }
 
     public static final Creator<Measurement> CREATOR = new Creator<Measurement>() {
@@ -38,6 +41,10 @@ public class Measurement implements Parcelable {
         return insulinInUnits;
     }
 
+    public int getSugarLevel() {
+        return sugarLevel;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -47,6 +54,7 @@ public class Measurement implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(carbohydratesInGrams);
         dest.writeFloat(insulinInUnits);
+        dest.writeInt(sugarLevel);
     }
 
 

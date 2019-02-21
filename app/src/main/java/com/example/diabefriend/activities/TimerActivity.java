@@ -50,6 +50,7 @@ public class TimerActivity extends AppCompatActivity {
 
     private CountDownTimer mCountDownTimer;
     public static boolean mTimerIsRunning;
+    private boolean mCountDownIsFinished;
 
     private MaterialProgressBar mProgressBar;
     private int mProgressBarStatus = 0;
@@ -104,9 +105,11 @@ public class TimerActivity extends AppCompatActivity {
             }
         });
 
-
-
         mProgressBar = findViewById(R.id.progressBar);
+
+        if (mCountDownIsFinished) {
+            mSummarizeButton.setVisibility(View.VISIBLE);
+        }
 
         if (!mTimerIsRunning) {
             mTimeLeftInMillis = TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS;
@@ -143,6 +146,7 @@ public class TimerActivity extends AppCompatActivity {
 
         updateCountDownTextView();
 
+
         if (mTimerIsRunning) {
             measurement = createMeasurementFromJson(preferences);
             mEndTime = preferences.getLong(endTimeString, 0);
@@ -160,7 +164,6 @@ public class TimerActivity extends AppCompatActivity {
                 startTimer();
             }
         }
-
     }
 
     @Override
@@ -185,8 +188,9 @@ public class TimerActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(this, MainActivity.class));
+        if (!mCountDownIsFinished) {
+            startActivity(new Intent(this, MainActivity.class));
+        }
     }
 
     private String createMeasurementJsonString() {
@@ -214,11 +218,13 @@ public class TimerActivity extends AppCompatActivity {
                 mStartButton.setVisibility(View.VISIBLE);
                 resetProgressBar();
                 resetTimer();
+                mCountDownIsFinished = true;
                 mSummarizeButton.setVisibility(View.VISIBLE);
             }
         }.start();
 
         mTimerIsRunning = true;
+        mCountDownIsFinished = false;
         mStartButton.setVisibility(View.INVISIBLE);
         mSummarizeButton.setVisibility(View.INVISIBLE);
     }
@@ -277,10 +283,11 @@ public class TimerActivity extends AppCompatActivity {
             float insulinUnitsPerGrams = measurement.getInsulinInUnits() * 10 / measurement.getCarbohydratesInGrams();
             String insulinUnitsPerGramsString = decimalFormat.format(insulinUnitsPerGrams);
 
-            dosageMessage = "You gave yourself " + measurement.getCarbohydratesInGrams() +
-                    " grams of carbohydrates and " + measurement.getInsulinInUnits() + " insulin units" +
-                    " (" + insulinUnitsPerGramsString + " insulin units for every 10 grams of carbohydrates)";
-
+            dosageMessage = "You gave yourself "
+                    + measurement.getCarbohydratesInGrams() + " grams of carbohydrates and "
+                    + measurement.getInsulinInUnits() + " insulin units\n" +
+                    "(" + insulinUnitsPerGramsString + " insulin units for every 10 grams of carbohydrates).\n" +
+                    "Your blood sugar level before the meal was " + measurement.getSugarLevel();
         }
 
         builder.setTitle(R.string.dosage_information_title).setMessage(dosageMessage);
@@ -293,7 +300,7 @@ public class TimerActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle("Summary");
-        builder.setMessage("Provide information after testing sugar level, go to the next screen");
+        builder.setMessage("Provide information after testing sugar level,\ngo to the next screen");
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 

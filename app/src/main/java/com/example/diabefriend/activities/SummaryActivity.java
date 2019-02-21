@@ -2,6 +2,7 @@ package com.example.diabefriend.activities;
 
 import android.os.Bundle;
 
+import com.example.diabefriend.model.Measurement;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -14,6 +15,8 @@ import com.example.diabefriend.R;
 
 public class SummaryActivity extends AppCompatActivity {
 
+    private Measurement measurement;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,14 +24,10 @@ public class SummaryActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        measurement = getIntent().getParcelableExtra("measurement");
+
+
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

@@ -18,6 +18,7 @@ public class StartActivity extends AppCompatActivity {
 
     private EditText carbohydratesInGramsInput;
     private EditText insulinUnitsInput;
+    private EditText sugarLevelInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +29,13 @@ public class StartActivity extends AppCompatActivity {
 
         carbohydratesInGramsInput = findViewById(R.id.carbohydratesInGramsInput);
         insulinUnitsInput = findViewById(R.id.insulinInUnitsInput);
+        sugarLevelInput = findViewById(R.id.sugarLevelInput);
 
         Button submitButton = findViewById(R.id.submitButton);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handleUserInput(carbohydratesInGramsInput, insulinUnitsInput);
+                handleUserInput(carbohydratesInGramsInput, insulinUnitsInput, sugarLevelInput);
             }
         });
 
@@ -41,17 +43,21 @@ public class StartActivity extends AppCompatActivity {
     }
 
 
-    private boolean checkWhetherInputIsValid(EditText carbohydratesInGramsInput, EditText insulinUnitsInput) {
-        if (carbohydratesInGramsInput.getText().toString().equals("") || insulinUnitsInput.getText().toString().equals("")) {
+    private boolean checkWhetherInputIsValid(EditText carbohydratesInGramsInput, EditText insulinUnitsInput, EditText sugarLevelInput) {
+        if (carbohydratesInGramsInput.getText().toString().equals("")
+                || insulinUnitsInput.getText().toString().equals("")
+                || sugarLevelInput.getText().toString().equals("")
+        ) {
             return false;
         }
 
         Measurement measurement = new Measurement(
                 Integer.valueOf(carbohydratesInGramsInput.getText().toString()),
-                Float.valueOf(insulinUnitsInput.getText().toString())
+                Float.valueOf(insulinUnitsInput.getText().toString()),
+                Integer.valueOf(sugarLevelInput.getText().toString())
         );
 
-        if (measurement.getInsulinInUnits() <= 0 || measurement.getCarbohydratesInGrams() <= 0) {
+        if (measurement.getInsulinInUnits() <= 0 || measurement.getCarbohydratesInGrams() <= 0 || measurement.getSugarLevel() <= 0) {
             return false;
         }
 
@@ -59,25 +65,26 @@ public class StartActivity extends AppCompatActivity {
     }
 
 
-    public void handleUserInput(EditText carbohydratesInGramsInput, EditText insulinUnitsInput) {
-        boolean isInputValid = checkWhetherInputIsValid(carbohydratesInGramsInput, insulinUnitsInput);
+    private void handleUserInput(EditText carbohydratesInGramsInput, EditText insulinUnitsInput, EditText sugarLevelInput) {
+        boolean inputIsValid = checkWhetherInputIsValid(carbohydratesInGramsInput, insulinUnitsInput, sugarLevelInput);
 
-        if (isInputValid) {
+        if (inputIsValid) {
             Measurement measurement = new Measurement(
                     Integer.valueOf(carbohydratesInGramsInput.getText().toString()),
-                    Float.valueOf(insulinUnitsInput.getText().toString())
+                    Float.valueOf(insulinUnitsInput.getText().toString()),
+                    Integer.valueOf(sugarLevelInput.getText().toString())
             );
 
             Intent intent = new Intent(this, TimerActivity.class);
             intent.putExtra("measurement", measurement);
             startActivity(intent);
         } else {
-            openDialog();
+            openInvalidInputDialog();
         }
     }
 
 
-    private void openDialog() {
+    private void openInvalidInputDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(StartActivity.this, R.style.AlertDialogCustom);
         builder.setTitle(R.string.invalid_input_dialog).setMessage(R.string.try_again_dialog);
 
