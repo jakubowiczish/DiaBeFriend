@@ -8,4 +8,12 @@ public class ResultMeasurement {
         this.measurement = measurement;
         this.sugarLevelAfterMeal = sugarLevelAfterMeal;
     }
+
+    public Measurement getMeasurement() {
+        return measurement;
+    }
+
+    public int getSugarLevelAfterMeal() {
+        return sugarLevelAfterMeal;
+    }
 }

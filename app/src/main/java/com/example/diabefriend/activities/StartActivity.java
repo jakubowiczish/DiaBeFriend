@@ -7,7 +7,6 @@ import com.example.diabefriend.R;
 import com.example.diabefriend.dialogs.DialogsManager;
 import com.example.diabefriend.model.Measurement;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -61,7 +60,7 @@ public class StartActivity extends AppCompatActivity {
                 Integer.valueOf(sugarLevelInput.getText().toString())
         );
 
-        if (measurement.getInsulinInUnits() <= 0 || measurement.getCarbohydratesInGrams() <= 0 || measurement.getSugarLevel() <= 0) {
+        if (measurement.getInsulinInUnits() <= 0 || measurement.getCarbohydratesInGrams() <= 0 || measurement.getSugarLevelBeforeMeal() <= 0) {
             return false;
         }
 

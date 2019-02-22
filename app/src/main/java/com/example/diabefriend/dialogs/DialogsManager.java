@@ -1,7 +1,6 @@
 package com.example.diabefriend.dialogs;
 
 import android.content.Context;
-import android.content.DialogInterface;
 
 import com.example.diabefriend.R;
 import com.example.diabefriend.activities.TimerActivity;
@@ -12,12 +11,12 @@ import androidx.appcompat.app.AlertDialog;
 public class DialogsManager {
 
     private void createDialogAndShow(androidx.appcompat.app.AlertDialog.Builder builder) {
-        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
 
     public void openInvalidInputDialog(Context context) {
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(context, R.style.AlertDialogCustom);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogCustom);
         builder.setTitle(R.string.invalid_input_dialog).setMessage(R.string.try_again_dialog);
 
         createDialogAndShow(builder);
@@ -37,13 +36,12 @@ public class DialogsManager {
                     + measurement.getCarbohydratesInGrams() + " grams of carbohydrates and "
                     + measurement.getInsulinInUnits() + " insulin units\n" +
                     "(" + insulinUnitsPerGramsString + " insulin units for every 10 grams of carbohydrates).\n" +
-                    "Your blood sugar level before the meal was " + measurement.getSugarLevel();
+                    "Your blood sugar level before the meal was " + measurement.getSugarLevelBeforeMeal();
         }
 
         builder.setTitle(R.string.dosage_information_title).setMessage(dosageMessage);
 
-        AlertDialog invalidInputDialog = builder.create();
-        invalidInputDialog.show();
+        createDialogAndShow(builder);
     }
 
 }
