@@ -32,4 +32,8 @@
     <string name="summarize_button_name">Summarize</string>
     <string name="sugar_level_after_2hours">Blood sugar level after 2 hours:</string>
     <string name="submit_and_summarize">Submit and summarize</string>
+    <string name="information_button_name">Information</string>
+    <string name="title_activity_information">InformationActivity</string>
+    <string name="search_for_products_button_name">Search for products</string>
+    <string name="title_activity_search_for_products">SearchForProductsActivity</string>
 </resources>

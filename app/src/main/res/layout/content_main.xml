@@ -10,11 +10,9 @@
 
     <Button
         android:id="@+id/startButton"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-
         android:layout_marginTop="160dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/buttonshape"
@@ -39,6 +37,39 @@
         android:layout_marginEnd="32dp"
         android:background="@drawable/buttonshape"
         android:text="@string/current_measurement_button_name"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/searchForProductsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="360dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/buttonshape"
+        android:text="@string/search_for_products_button_name"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/informationButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="460dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/buttonshape"
+        android:text="@string/information_button_name"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"

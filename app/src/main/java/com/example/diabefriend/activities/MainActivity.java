@@ -38,6 +38,22 @@ public class MainActivity extends AppCompatActivity {
                 onLastMeasurementClick();
             }
         });
+
+        Button searchForProducts = findViewById(R.id.searchForProductsButton);
+        searchForProducts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSearchForProductsClick();
+            }
+        });
+
+        Button informationButton = findViewById(R.id.informationButton);
+        informationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onInformationClick();
+            }
+        });
     }
 
     @Override
@@ -72,6 +88,15 @@ public class MainActivity extends AppCompatActivity {
         } else {
             showThereIsNoExistingMeasurementAtTheMomentDialog();
         }
+    }
+
+    private void onSearchForProductsClick() {
+        startActivity(new Intent(this, SearchForProductsActivity.class));
+    }
+
+
+    private void onInformationClick() {
+        startActivity(new Intent(this, InformationActivity.class));
     }
 
     private void showThereIsAlreadyExistingMeasurementDialog() {
