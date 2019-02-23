@@ -86,9 +86,7 @@ public class SearchForProductsActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!weightInGramsInput.getText().toString().equals("")) {
-                    updateProductInfoTextView(productInfoTextView, products, weightInGramsInput, productName);
-                }
+                updateProductInfoTextView(productInfoTextView, products, weightInGramsInput, productName);
             }
 
             @Override
@@ -109,7 +107,12 @@ public class SearchForProductsActivity extends AppCompatActivity {
     }
 
     private void updateProductInfoTextView(TextView productInfoTextView, List<Product> products, EditText weightInGramsInput, String productName) {
-        int weightInGrams = getValidWeightInGrams(weightInGramsInput);
+        int weightInGrams;
+        if (!weightInGramsInput.getText().toString().equals("")) {
+            weightInGrams = getValidWeightInGrams(weightInGramsInput);
+        } else {
+            weightInGrams = 0;
+        }
         productInfoTextView.setText(determineTextInfo(products, productName, weightInGrams));
 
     }
