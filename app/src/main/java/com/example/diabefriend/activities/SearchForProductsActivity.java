@@ -78,8 +78,7 @@ public class SearchForProductsActivity extends AppCompatActivity {
             }
         });
 
-
-        productInfoTextView.addTextChangedListener(new TextWatcher() {
+        weightInGramsInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -87,8 +86,9 @@ public class SearchForProductsActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                updateProductInfoTextView(productInfoTextView, products, weightInGramsInput, productName);
-
+                if (!weightInGramsInput.getText().toString().equals("")) {
+                    updateProductInfoTextView(productInfoTextView, products, weightInGramsInput, productName);
+                }
             }
 
             @Override
@@ -96,7 +96,6 @@ public class SearchForProductsActivity extends AppCompatActivity {
 
             }
         });
-
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -111,12 +110,7 @@ public class SearchForProductsActivity extends AppCompatActivity {
 
     private void updateProductInfoTextView(TextView productInfoTextView, List<Product> products, EditText weightInGramsInput, String productName) {
         int weightInGrams = getValidWeightInGrams(weightInGramsInput);
-
-        if (weightInGrams != -1) {
-            productInfoTextView.setText(determineTextInfo(products, productName, weightInGrams));
-        } else {
-            dialogsManager.openInvalidInputDialog(this);
-        }
+        productInfoTextView.setText(determineTextInfo(products, productName, weightInGrams));
 
     }
 
@@ -148,16 +142,7 @@ public class SearchForProductsActivity extends AppCompatActivity {
     }
 
     private int getValidWeightInGrams(EditText weightInGramsInput) {
-        if (weightInGramsInput.getText().toString().equals("")) {
-            return -1;
-        }
-
-        int weightInGrams = Integer.valueOf(weightInGramsInput.getText().toString());
-        if (weightInGrams <= 0) {
-            return -1;
-        }
-
-        return weightInGrams;
+        return Integer.valueOf(weightInGramsInput.getText().toString());
     }
 
     private String getValidProductName(AutoCompleteTextView autoCompleteTextView, List<String> productNames) {
