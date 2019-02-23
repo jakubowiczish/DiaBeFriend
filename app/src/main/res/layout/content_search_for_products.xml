@@ -14,11 +14,12 @@
         android:layout_width="224dp"
         android:layout_height="44dp"
         android:layout_marginStart="93dp"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="68dp"
         android:layout_marginEnd="94dp"
         android:gravity="center"
         android:text="@string/search_for_product_text_view"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,12 +28,71 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="164dp"
+        android:layout_marginTop="128dp"
+        android:layout_marginEnd="32dp"
+        android:completionHint="@string/completion_hint"
+        android:completionThreshold="1"
+        android:gravity="center"
+        android:hint="@string/autocomplete_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/submitInSearchButton"
+        android:layout_width="224dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="93dp"
+        android:layout_marginTop="184dp"
+        android:layout_marginEnd="94dp"
+        android:text="@string/submit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/weightInGramsTextView"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="248dp"
         android:layout_marginEnd="32dp"
         android:gravity="center"
-        android:completionThreshold="1"
-        android:completionHint="@string/completion_hint"
+        android:text="@string/enter_weight_in_grams"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <EditText
+        android:id="@+id/weightInGrams"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="300dp"
+        android:layout_marginEnd="32dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="numberSigned"
+        android:hint="@string/weight_in_grams_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/productInfoTextView"
+        android:layout_width="0dp"
+        android:layout_height="272dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="364dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

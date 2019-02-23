@@ -2,16 +2,24 @@ package com.example.diabefriend.activities;
 
 import android.os.Bundle;
 
+import com.example.diabefriend.dialogs.DialogsManager;
 import com.example.diabefriend.model.Product;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.diabefriend.R;
+import com.example.diabefriend.model.Utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,6 +32,14 @@ import java.util.List;
 public class SearchForProductsActivity extends AppCompatActivity {
 
     private List<Product> products = new ArrayList<>();
+    private DialogsManager dialogsManager;
+    private AutoCompleteTextView autoCompleteTextView;
+    private TextView weightInGramsTextView;
+    private EditText weightInGramsInput;
+    private TextView productInfoTextView;
+
+    private String productName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,21 +47,133 @@ public class SearchForProductsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_for_products);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        dialogsManager = new DialogsManager();
 
         readProductsData();
 
-        List<String> productNames = getProductNames();
+        final List<String> productNames = getProductNames();
 
-        AutoCompleteTextView autoCompleteTextView = findViewById(R.id.autoCompleteTextView);
+        autoCompleteTextView = findViewById(R.id.autoCompleteTextView);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
                 productNames
         );
-
         autoCompleteTextView.setAdapter(adapter);
 
+        weightInGramsTextView = findViewById(R.id.weightInGramsTextView);
+        weightInGramsTextView.setVisibility(View.INVISIBLE);
+
+        weightInGramsInput = findViewById(R.id.weightInGrams);
+        weightInGramsInput.setVisibility(View.INVISIBLE);
+
+        productInfoTextView = findViewById(R.id.productInfoTextView);
+        productInfoTextView.setVisibility(View.INVISIBLE);
+
+        Button submitButton = findViewById(R.id.submitInSearchButton);
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkProductName(autoCompleteTextView, productNames);
+            }
+        });
+
+
+        productInfoTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                updateProductInfoTextView(productInfoTextView, products, weightInGramsInput, productName);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+
+    private void updateVisibility() {
+        weightInGramsTextView.setVisibility(View.VISIBLE);
+        weightInGramsInput.setVisibility(View.VISIBLE);
+        productInfoTextView.setVisibility(View.VISIBLE);
+
+    }
+
+    private void updateProductInfoTextView(TextView productInfoTextView, List<Product> products, EditText weightInGramsInput, String productName) {
+        int weightInGrams = getValidWeightInGrams(weightInGramsInput);
+
+        if (weightInGrams != -1) {
+            productInfoTextView.setText(determineTextInfo(products, productName, weightInGrams));
+        } else {
+            dialogsManager.openInvalidInputDialog(this);
+        }
+
+    }
+
+    private void checkProductName(AutoCompleteTextView autoCompleteTextView, List<String> productNames) {
+        String localProductName = getValidProductName(autoCompleteTextView, productNames);
+        if (localProductName != null) {
+            updateVisibility();
+            productName = localProductName;
+        } else {
+            dialogsManager.openInvalidInputDialog(this);
+        }
+    }
+
+    private String determineTextInfo(List<Product> products, String productName, int weightInGrams) {
+        StringBuilder textInfoBuilder = new StringBuilder();
+        for (Product product : products) {
+            if (product.getName().equals(productName)) {
+                float weightInDataBase = product.getWeight();
+
+                textInfoBuilder
+                        .append("kCal: ").append(Utils.decimalFormat.format(weightInGrams * product.getkCal() / weightInDataBase))
+                        .append("\nFat: ").append(Utils.decimalFormat.format(weightInGrams * product.getFat() / weightInDataBase))
+                        .append("\nCarbohydrates: ").append(Utils.decimalFormat.format(weightInGrams * product.getCarbohydrates() / weightInDataBase))
+                        .append("\nProteins: ").append(Utils.decimalFormat.format(weightInGrams * product.getProteins() / weightInDataBase));
+            }
+        }
+
+        return textInfoBuilder.toString();
+    }
+
+    private int getValidWeightInGrams(EditText weightInGramsInput) {
+        if (weightInGramsInput.getText().toString().equals("")) {
+            return -1;
+        }
+
+        int weightInGrams = Integer.valueOf(weightInGramsInput.getText().toString());
+        if (weightInGrams <= 0) {
+            return -1;
+        }
+
+        return weightInGrams;
+    }
+
+    private String getValidProductName(AutoCompleteTextView autoCompleteTextView, List<String> productNames) {
+        if (autoCompleteTextView.getText().toString().equals("")) {
+            return null;
+        }
+
+        String textViewString = autoCompleteTextView.getText().toString();
+
+        for (String productName : productNames) {
+            if (productName.equals(textViewString)) {
+                return productName;
+            }
+        }
+
+        return null;
     }
 
 

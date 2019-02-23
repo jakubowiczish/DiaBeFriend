@@ -3,8 +3,8 @@ package com.example.diabefriend.dialogs;
 import android.content.Context;
 
 import com.example.diabefriend.R;
-import com.example.diabefriend.activities.TimerActivity;
 import com.example.diabefriend.model.Measurement;
+import com.example.diabefriend.model.Utils;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -30,7 +30,7 @@ public class DialogsManager {
             dosageMessage = "Error! No information about the measurement has been found";
         } else {
             float insulinUnitsPerGrams = measurement.getInsulinInUnits() * 10 / measurement.getCarbohydratesInGrams();
-            String insulinUnitsPerGramsString = TimerActivity.decimalFormat.format(insulinUnitsPerGrams);
+            String insulinUnitsPerGramsString = Utils.decimalFormat.format(insulinUnitsPerGrams);
 
             dosageMessage = "You gave yourself "
                     + measurement.getCarbohydratesInGrams() + " grams of carbohydrates and "

@@ -31,8 +31,6 @@ import java.util.Locale;
 
 public class TimerActivity extends AppCompatActivity {
 
-    public static final DecimalFormat decimalFormat = new DecimalFormat("#.##");
-
     private static final int TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 3000; // 2 hours = 7200000 millis
     private static final String millisLeftString = "millisLeftString";
     private static final String endTimeString = "endTime";

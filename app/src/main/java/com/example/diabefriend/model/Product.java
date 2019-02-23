@@ -20,4 +20,24 @@ public class Product {
     public String getName() {
         return name;
     }
+
+    public float getWeight() {
+        return weight;
+    }
+
+    public float getkCal() {
+        return kCal;
+    }
+
+    public float getFat() {
+        return fat;
+    }
+
+    public float getCarbohydrates() {
+        return carbohydrates;
+    }
+
+    public float getProteins() {
+        return proteins;
+    }
 }
