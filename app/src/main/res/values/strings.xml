@@ -36,4 +36,6 @@
     <string name="title_activity_information">InformationActivity</string>
     <string name="search_for_products_button_name">Search for products</string>
     <string name="title_activity_search_for_products">SearchForProductsActivity</string>
+    <string name="search_for_product_text_view">Search for desired product:</string>
+    <string name="completion_hint">Search for product</string>
 </resources>

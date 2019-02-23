@@ -8,4 +8,31 @@
     tools:context=".activities.SearchForProductsActivity"
     tools:showIn="@layout/activity_search_for_products">
 
+
+    <TextView
+        android:id="@+id/searchForProductTextView"
+        android:layout_width="224dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="93dp"
+        android:layout_marginTop="104dp"
+        android:layout_marginEnd="94dp"
+        android:gravity="center"
+        android:text="@string/search_for_product_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="164dp"
+        android:layout_marginEnd="32dp"
+        android:gravity="center"
+        android:completionThreshold="1"
+        android:completionHint="@string/completion_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
