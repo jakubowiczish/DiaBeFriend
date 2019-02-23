@@ -132,9 +132,9 @@ public class SearchForProductsActivity extends AppCompatActivity {
 
                 textInfoBuilder
                         .append("kCal: ").append(Utils.decimalFormat.format(weightInGrams * product.getkCal() / weightInDataBase))
-                        .append("\nFat: ").append(Utils.decimalFormat.format(weightInGrams * product.getFat() / weightInDataBase))
-                        .append("\nCarbohydrates: ").append(Utils.decimalFormat.format(weightInGrams * product.getCarbohydrates() / weightInDataBase))
-                        .append("\nProteins: ").append(Utils.decimalFormat.format(weightInGrams * product.getProteins() / weightInDataBase));
+                        .append("\nFat: ").append(Utils.decimalFormat.format(weightInGrams * product.getFat() / weightInDataBase)).append(" g")
+                        .append("\nCarbohydrates: ").append(Utils.decimalFormat.format(weightInGrams * product.getCarbohydrates() / weightInDataBase)).append(" g")
+                        .append("\nProteins: ").append(Utils.decimalFormat.format(weightInGrams * product.getProteins() / weightInDataBase)).append(" g");
             }
         }
 
