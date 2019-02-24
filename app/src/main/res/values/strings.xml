@@ -39,6 +39,6 @@
     <string name="search_for_product_text_view">Search for desired product:</string>
     <string name="completion_hint">Search for product</string>
     <string name="enter_weight_in_grams">Enter the weight of your product/meal in grams:</string>
-    <string name="autocomplete_hint">Banana</string>
+    <string name="choice_hint">Banana</string>
     <string name="weight_in_grams_hint">253</string>
 </resources>

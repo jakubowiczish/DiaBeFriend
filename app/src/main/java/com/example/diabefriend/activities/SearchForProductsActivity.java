@@ -3,18 +3,21 @@ package com.example.diabefriend.activities;
 import android.os.Bundle;
 
 import com.example.diabefriend.dialogs.DialogsManager;
+import com.example.diabefriend.model.CustomAdapter;
+import com.example.diabefriend.model.OnClick;
 import com.example.diabefriend.model.Product;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -39,6 +42,7 @@ public class SearchForProductsActivity extends AppCompatActivity {
     private TextView productInfoTextView;
 
     private String productName;
+    private TextView choiceTextView;
 
 
     @Override
@@ -51,15 +55,14 @@ public class SearchForProductsActivity extends AppCompatActivity {
 
         readProductsData();
 
-        final List<String> productNames = getProductNames();
 
-        autoCompleteTextView = findViewById(R.id.autoCompleteTextView);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_list_item_1,
-                productNames
-        );
-        autoCompleteTextView.setAdapter(adapter);
+        choiceTextView = findViewById(R.id.choiceTextView);
+        choiceTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showChoiceDialog();
+            }
+        });
 
         weightInGramsTextView = findViewById(R.id.weightInGramsTextView);
         weightInGramsTextView.setVisibility(View.INVISIBLE);
@@ -70,18 +73,9 @@ public class SearchForProductsActivity extends AppCompatActivity {
         productInfoTextView = findViewById(R.id.productInfoTextView);
         productInfoTextView.setVisibility(View.INVISIBLE);
 
-        Button submitButton = findViewById(R.id.submitInSearchButton);
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkProductName(autoCompleteTextView, productNames);
-            }
-        });
-
         weightInGramsInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -91,7 +85,6 @@ public class SearchForProductsActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
@@ -103,7 +96,6 @@ public class SearchForProductsActivity extends AppCompatActivity {
         weightInGramsTextView.setVisibility(View.VISIBLE);
         weightInGramsInput.setVisibility(View.VISIBLE);
         productInfoTextView.setVisibility(View.VISIBLE);
-
     }
 
     private void updateProductInfoTextView(TextView productInfoTextView, List<Product> products, EditText weightInGramsInput, String productName) {
@@ -114,17 +106,50 @@ public class SearchForProductsActivity extends AppCompatActivity {
             weightInGrams = 0;
         }
         productInfoTextView.setText(determineTextInfo(products, productName, weightInGrams));
-
     }
 
-    private void checkProductName(AutoCompleteTextView autoCompleteTextView, List<String> productNames) {
-        String localProductName = getValidProductName(autoCompleteTextView, productNames);
-        if (localProductName != null) {
-            updateVisibility();
-            productName = localProductName;
-        } else {
-            dialogsManager.openInvalidInputDialog(this);
-        }
+
+    private void showChoiceDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View v = getLayoutInflater().inflate(R.layout.dialog_choice, null);
+        builder.setView(v);
+        final AlertDialog alertDialog = builder.create();
+
+        final EditText choiceEditText = v.findViewById(R.id.choiceEditTextDialog);
+
+        final List<String> productNames = getProductNames();
+
+        RecyclerView recyclerView = v.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        final CustomAdapter customAdapter = new CustomAdapter(
+                this,
+                productNames
+        );
+
+        choiceEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                customAdapter.filter(s);
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+        recyclerView.setAdapter(customAdapter);
+
+        customAdapter.setOnClick(new OnClick() {
+            @Override
+            public void click(String localProductName) {
+                productName = localProductName;
+                choiceTextView.setText(productName);
+                updateVisibility();
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 
     private String determineTextInfo(List<Product> products, String productName, int weightInGrams) {

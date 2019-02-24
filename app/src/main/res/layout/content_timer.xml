@@ -8,19 +8,6 @@
     tools:context=".activities.TimerActivity"
     tools:showIn="@layout/activity_timer">
 
-    <Button
-        android:id="@+id/summarizeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="260dp"
-        android:layout_marginEnd="103dp"
-        android:text="@string/summarize_button_name"
-        app:layout_constraintEnd_toStartOf="@+id/progressBar"
-        app:layout_constraintHorizontal_bias="0.018"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/startButtonInSummary"
         android:layout_width="53dp"
