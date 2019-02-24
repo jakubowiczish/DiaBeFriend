@@ -1,5 +1,5 @@
 package com.example.diabefriend.model;
 
-public interface OnClick {
+public interface OnProductNameClick {
     void click(String productName);
 }

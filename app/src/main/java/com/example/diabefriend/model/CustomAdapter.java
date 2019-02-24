@@ -18,14 +18,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     private final ArrayList<String> filteredProductNames;
     private LayoutInflater inflater;
-    private Context context;
     private List<String> productNames;
-    private OnClick onClick;
+    private OnProductNameClick onProductNameClick;
 
 
     public CustomAdapter(Context context, List<String> productNames) {
         inflater = LayoutInflater.from(context);
-        this.context = context;
         this.productNames = productNames;
         this.filteredProductNames = new ArrayList<>(productNames);
     }
@@ -40,11 +38,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        holder.serial_number.setText(filteredProductNames.get(position));
+        holder.productNameTextView.setText(filteredProductNames.get(position));
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClick.click(filteredProductNames.get(position));
+                onProductNameClick.click(filteredProductNames.get(position));
             }
         });
     }
@@ -64,17 +62,17 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         notifyDataSetChanged();
     }
 
-    public void setOnClick(OnClick onClick) {
-        this.onClick = onClick;
+    public void setOnProductNameClick(OnProductNameClick onProductNameClick) {
+        this.onProductNameClick = onProductNameClick;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         private final LinearLayout linearLayout;
-        TextView serial_number;
+        TextView productNameTextView;
 
         MyViewHolder(View itemView) {
             super(itemView);
-            serial_number = itemView.findViewById(R.id.holderTextView);
+            productNameTextView = itemView.findViewById(R.id.holderTextView);
             linearLayout = itemView.findViewById(R.id.holderLinearLayout);
         }
     }

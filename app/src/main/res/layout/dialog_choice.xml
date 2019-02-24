@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/choiceEditTextDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:gravity="center"
         android:hint="@string/choice_hint"
-        />
+        android:inputType="textPersonName" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="400dp" />
 
 </LinearLayout>
