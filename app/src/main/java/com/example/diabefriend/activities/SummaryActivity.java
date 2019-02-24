@@ -1,6 +1,7 @@
 package com.example.diabefriend.activities;
 
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -17,6 +18,9 @@ import android.widget.TextView;
 
 import com.example.diabefriend.R;
 import com.example.diabefriend.model.ResultMeasurement;
+import com.example.diabefriend.model.Utils;
+
+import java.sql.Time;
 
 public class SummaryActivity extends AppCompatActivity {
 
@@ -35,7 +39,9 @@ public class SummaryActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         dialogsManager = new DialogsManager();
 
-        measurement = getIntent().getParcelableExtra("measurement");
+        SharedPreferences preferences = getSharedPreferences(TimerActivity.preferencesString, MODE_PRIVATE);
+
+        measurement = Utils.createMeasurementFromJson(preferences, TimerActivity.measurementString);
 
         sugarLevelInputAfterMeal = findViewById(R.id.sugarLevelInputAfterMeal);
 

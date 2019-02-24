@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.widget.Toast;
 
 import com.example.diabefriend.R;
+import com.example.diabefriend.activities.SummaryActivity;
 import com.example.diabefriend.activities.TimerActivity;
 
 import androidx.core.app.NotificationCompat;
@@ -20,7 +21,9 @@ public class Alarm extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        notifyUserAboutTestingSugarLevel(context);
+        Intent intent1 = new Intent(context, SummaryActivity.class);
+        intent1.putExtra(TimerActivity.measurementString, intent.getParcelableExtra(TimerActivity.measurementString));
+        context.startActivity(intent1);
         Toast.makeText(context, "IT IS TIME TO TEST YOUR SUGAR LEVEL!", Toast.LENGTH_LONG).show();
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         MediaPlayer mp = MediaPlayer.create(context, notification);
@@ -47,7 +50,7 @@ public class Alarm extends BroadcastReceiver {
                 .setDefaults(Notification.DEFAULT_ALL)
                 .build();
 
-        NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(1, notification);
     }
 
