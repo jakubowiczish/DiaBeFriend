@@ -35,12 +35,9 @@ import java.util.List;
 public class SearchForProductsActivity extends AppCompatActivity {
 
     private List<Product> products = new ArrayList<>();
-    private DialogsManager dialogsManager;
-    private AutoCompleteTextView autoCompleteTextView;
     private TextView weightInGramsTextView;
     private EditText weightInGramsInput;
     private TextView productInfoTextView;
-
     private String productName;
     private TextView choiceTextView;
 
@@ -51,10 +48,8 @@ public class SearchForProductsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_for_products);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        dialogsManager = new DialogsManager();
 
         readProductsData();
-
 
         choiceTextView = findViewById(R.id.choiceTextView);
         choiceTextView.setOnClickListener(new View.OnClickListener() {

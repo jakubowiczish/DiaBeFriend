@@ -1,39 +1,46 @@
 package com.example.diabefriend.activities;
 
+import android.app.Activity;
 import android.app.AlarmManager;
-
 import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
+
 import android.os.CountDownTimer;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.diabefriend.R;
 import com.example.diabefriend.dialogs.DialogsManager;
 import com.example.diabefriend.model.Alarm;
 import com.example.diabefriend.model.Measurement;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
-
-import com.example.diabefriend.R;
 import com.example.diabefriend.model.Utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.gson.Gson;
 
-import java.sql.Time;
-import java.text.DecimalFormat;
 import java.util.Locale;
 
-public class TimerActivity extends AppCompatActivity {
+import static android.content.Context.ALARM_SERVICE;
+import static android.content.Context.MODE_PRIVATE;
 
-    private static final int TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 3000; // 2 hours = 7200000 millis
+
+public class MeasurementFragment extends Fragment {
+
+    private static final int START_ACTIVITY_REQUEST_CODE = 1;
+
+    public MeasurementFragment() {
+    }
+
+    private static final int TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 10000; // 2 hours = 7200000 millis
     private static final String millisLeftString = "millisLeftString";
     private static final String endTimeString = "endTime";
     public static final String preferencesString = "preferences";
@@ -60,28 +67,33 @@ public class TimerActivity extends AppCompatActivity {
     private long mTimeLeftInMillis = TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS;
     private long mEndTime;
 
+    private View v;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timer);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        dialogsManager = new DialogsManager();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        v = inflater.inflate(R.layout.activity_timer, container, false);
 
-        measurement = getIntent().getParcelableExtra(measurementString);
-
-        mDosageInformationButton = findViewById(R.id.dosageInformationButton);
-        mDosageInformationButton.setOnClickListener(new View.OnClickListener() {
+        v.findViewById(R.id.startActivityButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogsManager.showDosageInformationDialog(measurement, TimerActivity.this);
+                startActivityForResult(new Intent(getContext(), StartActivity.class), START_ACTIVITY_REQUEST_CODE);
             }
         });
 
-        countDownTextView = findViewById(R.id.countdownView);
+        dialogsManager = new DialogsManager();
 
-        mStartButton = findViewById(R.id.startButtonInSummary);
+        mDosageInformationButton = v.findViewById(R.id.dosageInformationButton);
+        mDosageInformationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogsManager.showDosageInformationDialog(measurement, getContext());
+            }
+        });
+
+        countDownTextView = v.findViewById(R.id.countdownView);
+
+        mStartButton = v.findViewById(R.id.startButtonInSummary);
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,7 +102,7 @@ public class TimerActivity extends AppCompatActivity {
             }
         });
 
-        mResetButton = findViewById(R.id.resetButtonInSummary);
+        mResetButton = v.findViewById(R.id.resetButtonInSummary);
         mResetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,10 +110,7 @@ public class TimerActivity extends AppCompatActivity {
             }
         });
 
-
-
-        mProgressBar = findViewById(R.id.progressBar);
-
+        mProgressBar = v.findViewById(R.id.progressBar);
 
         if (!mTimerIsRunning) {
             mTimeLeftInMillis = TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS;
@@ -110,18 +119,31 @@ public class TimerActivity extends AppCompatActivity {
         }
         updateCountDownTextView();
 
+        return v;
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (START_ACTIVITY_REQUEST_CODE) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    measurement = data.getParcelableExtra(measurementString);
+                }
+                break;
+            }
+        }
     }
 
     private void setAlarm() {
-        Intent intent = new Intent(this, Alarm.class);
+        Intent intent = new Intent(getContext(), Alarm.class);
 
-        SharedPreferences preferences = getSharedPreferences(preferencesString, MODE_PRIVATE);
+        SharedPreferences preferences = getActivity().getSharedPreferences(preferencesString, MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(measurementString, Utils.createMeasurementJsonString(measurement));
         editor.apply();
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 1, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS, pendingIntent);
@@ -131,18 +153,18 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void cancelAlarm() {
-        Intent intent = new Intent(this, Alarm.class);
+        Intent intent = new Intent(getContext(), Alarm.class);
         intent.putExtra(measurementString, measurement);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 1, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
 
-        SharedPreferences preferences = getSharedPreferences(preferencesString, MODE_PRIVATE);
+        SharedPreferences preferences = getActivity().getSharedPreferences(preferencesString, MODE_PRIVATE);
 
         mTimerIsRunning = preferences.getBoolean(timerIsRunningString, false);
         mTimeLeftInMillis = preferences.getLong(millisLeftString, TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS);
@@ -156,7 +178,7 @@ public class TimerActivity extends AppCompatActivity {
             mTimeLeftInMillis = mEndTime - System.currentTimeMillis();
 
             mProgressBarStatus = countProgressBarStatus(mTimeLeftInMillis);
-            mProgressBar = findViewById(R.id.progressBar);
+            mProgressBar = v.findViewById(R.id.progressBar);
             mProgressBar.setProgress(mProgressBarStatus);
 
             if (mTimeLeftInMillis < 0) {
@@ -170,10 +192,10 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
 
-        SharedPreferences preferences = getSharedPreferences(preferencesString, MODE_PRIVATE);
+        SharedPreferences preferences = getActivity().getSharedPreferences(preferencesString, MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
         editor.putString(measurementString, Utils.createMeasurementJsonString(measurement));
@@ -187,13 +209,6 @@ public class TimerActivity extends AppCompatActivity {
 
         if (mCountDownTimer != null) {
             mCountDownTimer.cancel();
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (!mCountDownIsFinished) {
-            startActivity(new Intent(this, MainActivity.class));
         }
     }
 
@@ -268,7 +283,7 @@ public class TimerActivity extends AppCompatActivity {
 
 
     private void timerResetButtonDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder.setTitle("Confirm");
         builder.setMessage("Are you sure? Measurement data will be lost");

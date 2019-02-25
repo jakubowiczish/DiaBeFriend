@@ -1,5 +1,6 @@
 package com.example.diabefriend.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -77,10 +78,10 @@ public class StartActivity extends AppCompatActivity {
                     Float.valueOf(insulinUnitsInput.getText().toString()),
                     Integer.valueOf(sugarLevelInput.getText().toString())
             );
-
-            Intent intent = new Intent(this, TimerActivity.class);
-            intent.putExtra("measurement", measurement);
-            startActivity(intent);
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("measurement", measurement);
+            setResult(Activity.RESULT_OK, resultIntent);
+            finish();
         } else {
             dialogsManager.openInvalidInputDialog(this);
         }
