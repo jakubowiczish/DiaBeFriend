@@ -94,6 +94,7 @@ public class MeasurementFragment extends Fragment {
         countDownTextView = v.findViewById(R.id.countdownView);
 
         mStartButton = v.findViewById(R.id.startButtonInSummary);
+        measurementChanged();
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,10 +129,15 @@ public class MeasurementFragment extends Fragment {
             case (START_ACTIVITY_REQUEST_CODE) : {
                 if (resultCode == Activity.RESULT_OK) {
                     measurement = data.getParcelableExtra(measurementString);
+                    measurementChanged();
                 }
                 break;
             }
         }
+    }
+
+    private void measurementChanged() {
+        mStartButton.setEnabled(measurement != null);
     }
 
     private void setAlarm() {
