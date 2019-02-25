@@ -74,7 +74,7 @@ public class MeasurementFragment extends Fragment {
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.activity_timer, container, false);
 
-        v.findViewById(R.id.startActivityButton).setOnClickListener(new View.OnClickListener() {
+        v.findViewById(R.id.startActivityFloatingButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(getContext(), StartActivity.class), START_ACTIVITY_REQUEST_CODE);
@@ -122,11 +122,12 @@ public class MeasurementFragment extends Fragment {
 
         return v;
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode) {
-            case (START_ACTIVITY_REQUEST_CODE) : {
+        switch (requestCode) {
+            case (START_ACTIVITY_REQUEST_CODE): {
                 if (resultCode == Activity.RESULT_OK) {
                     measurement = data.getParcelableExtra(measurementString);
                     measurementChanged();

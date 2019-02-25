@@ -22,13 +22,13 @@ public class BottomNavigationActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment selectedFragment = null;
             switch (item.getItemId()) {
-                case R.id.navigation_home:
+                case R.id.measurement:
                     selectedFragment = new MeasurementFragment();
                     break;
-                case R.id.navigation_dashboard:
+                case R.id.search_for_product:
+                    selectedFragment = new SearchForProductFragment();
                     break;
-                case R.id.navigation_notifications:
-                    break;
+
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, selectedFragment).commit();
             return true;

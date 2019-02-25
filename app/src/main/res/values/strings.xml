@@ -42,7 +42,7 @@
     <string name="choice_hint">Banana</string>
     <string name="weight_in_grams_hint">253</string>
     <string name="title_activity_bottom_navigation">BottomNavigationActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_measurement">Measurement and alarm</string>
+    <string name="title_search">Search for product</string>
     <string name="title_notifications">Notifications</string>
 </resources>
