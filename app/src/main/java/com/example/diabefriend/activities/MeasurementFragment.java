@@ -25,6 +25,7 @@ import com.example.diabefriend.dialogs.DialogsManager;
 import com.example.diabefriend.model.Alarm;
 import com.example.diabefriend.model.Measurement;
 import com.example.diabefriend.model.Utils;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Locale;
@@ -50,7 +51,7 @@ public class MeasurementFragment extends Fragment {
     private static final String countdownIsFinishedString = "countdownIsFinished";
     private DialogsManager dialogsManager;
 
-    private Button mDosageInformationButton;
+    private MaterialButton mDosageInformationButton;
     private Measurement measurement;
 
     private TextView countDownTextView;

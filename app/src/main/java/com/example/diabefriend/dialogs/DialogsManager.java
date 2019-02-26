@@ -1,6 +1,10 @@
 package com.example.diabefriend.dialogs;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.diabefriend.R;
 import com.example.diabefriend.model.Measurement;
@@ -10,20 +14,21 @@ import androidx.appcompat.app.AlertDialog;
 
 public class DialogsManager {
 
-    private void createDialogAndShow(androidx.appcompat.app.AlertDialog.Builder builder) {
+    private void createDialogAndShow(AlertDialog.Builder builder) {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
 
+
     public void openInvalidInputDialog(Context context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogCustom);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.invalid_input_dialog).setMessage(R.string.try_again_dialog);
 
         createDialogAndShow(builder);
     }
 
     public void showDosageInformationDialog(Measurement measurement, Context context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogCustom);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
         String dosageMessage;
         if (measurement == null) {
@@ -39,8 +44,14 @@ public class DialogsManager {
                     "Your blood sugar level before the meal was " + measurement.getSugarLevelBeforeMeal();
         }
 
-        builder.setTitle(R.string.dosage_information_title).setMessage(dosageMessage);
 
+        builder.setTitle(R.string.dosage_information_title).setMessage(dosageMessage);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
         createDialogAndShow(builder);
     }
 

@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.BottomNavigationActivity"
-            android:label="@string/title_activity_bottom_navigation">
+            android:label="@string/application_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
