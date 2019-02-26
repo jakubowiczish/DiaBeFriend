@@ -21,40 +21,15 @@
         </activity>
 
         <activity
-            android:name=".activities.SearchForProductsActivity"
-            android:label="@string/title_activity_search_for_products"
-            android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.diabefriend.activities.MainActivity" />
-        </activity>
-        <activity
             android:name=".activities.InformationActivity"
             android:label="@string/title_activity_information"
-            android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.diabefriend.activities.MainActivity" />
+
         </activity>
         <activity
             android:name=".activities.SummaryActivity"
             android:label="@string/title_activity_summary"
-            android:parentActivityName=".activities.TimerActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.diabefriend.activities.TimerActivity" />
-        </activity>
-        <activity
-            android:name=".activities.TimerActivity"
-            android:label="@string/title_activity_timer"
-            android:parentActivityName=".activities.StartActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.diabefriend.activities.StartActivity" />
         </activity>
 
         <receiver android:name=".model.Alarm" />
@@ -62,16 +37,11 @@
         <activity
             android:name=".activities.StartActivity"
             android:label="@string/title_activity_start"
-            android:parentActivityName=".activities.MainActivity"
+            android:parentActivityName=".activities.BottomNavigationActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.diabefriend.activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".activities.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+                android:value="com.example.diabefriend.activities.BottomNavigationActivity" />
         </activity>
     </application>
 

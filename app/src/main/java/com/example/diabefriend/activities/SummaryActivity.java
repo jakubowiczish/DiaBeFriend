@@ -39,9 +39,9 @@ public class SummaryActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         dialogsManager = new DialogsManager();
 
-        SharedPreferences preferences = getSharedPreferences(TimerActivity.preferencesString, MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences(MeasurementFragment.preferencesString, MODE_PRIVATE);
 
-        measurement = Utils.createMeasurementFromJson(preferences, TimerActivity.measurementString);
+        measurement = Utils.createMeasurementFromJson(preferences, MeasurementFragment.measurementString);
 
         sugarLevelInputAfterMeal = findViewById(R.id.sugarLevelInputAfterMeal);
 
