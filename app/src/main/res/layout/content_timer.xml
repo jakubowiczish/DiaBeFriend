@@ -15,7 +15,8 @@
         android:layout_marginStart="88dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_play"
-        app:backgroundTint="@color/design_default_color_secondary"
+        app:backgroundTint="@color/colorAccent"
+        app:tint="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
@@ -27,7 +28,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="88dp"
         android:src="@drawable/ic_stop"
-        app:backgroundTint="@color/design_default_color_secondary"
+        app:backgroundTint="@color/colorAccent"
+        app:tint="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
@@ -52,7 +54,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="@string/dosage_information_button_text"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -94,6 +95,8 @@
         android:src="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:backgroundTint="@color/colorAccent"
+        app:tint="@android:color/white"
         app:srcCompat="@drawable/ic_notifications_black_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
