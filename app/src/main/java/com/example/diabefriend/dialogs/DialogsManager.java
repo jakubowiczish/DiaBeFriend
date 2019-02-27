@@ -2,9 +2,6 @@ package com.example.diabefriend.dialogs;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.TextView;
 
 import com.example.diabefriend.R;
 import com.example.diabefriend.model.Measurement;
@@ -20,12 +17,33 @@ public class DialogsManager {
     }
 
 
-    public void openInvalidInputDialog(Context context) {
+    public void showInvalidInputDialog(Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.invalid_input_dialog).setMessage(R.string.try_again_dialog);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
 
         createDialogAndShow(builder);
     }
+
+    public void showNoMeasurementFoundDialog(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(R.string.no_measurement_found_dialog_title).setMessage(R.string.try_again_dialog);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        createDialogAndShow(builder);
+    }
+
+
 
     public void showDosageInformationDialog(Measurement measurement, Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

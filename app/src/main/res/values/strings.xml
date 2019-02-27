@@ -50,4 +50,5 @@
     <string name="fat_string">Fat:</string>
     <string name="carbohydrates_string">Carbohydrates:</string>
     <string name="protein_string">Proteins:</string>
+    <string name="no_measurement_found_dialog_title">No measurement found!</string>
 </resources>

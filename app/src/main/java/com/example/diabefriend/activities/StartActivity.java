@@ -83,7 +83,7 @@ public class StartActivity extends AppCompatActivity {
             setResult(Activity.RESULT_OK, resultIntent);
             finish();
         } else {
-            dialogsManager.openInvalidInputDialog(this);
+            dialogsManager.showInvalidInputDialog(this);
         }
     }
 

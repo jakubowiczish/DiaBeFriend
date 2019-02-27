@@ -20,8 +20,6 @@ import com.example.diabefriend.R;
 import com.example.diabefriend.model.ResultMeasurement;
 import com.example.diabefriend.model.Utils;
 
-import java.sql.Time;
-
 public class SummaryActivity extends AppCompatActivity {
 
     private Measurement measurement;
@@ -90,7 +88,7 @@ public class SummaryActivity extends AppCompatActivity {
             }
 
         } else {
-            dialogsManager.openInvalidInputDialog(this);
+            dialogsManager.showInvalidInputDialog(this);
         }
     }
 

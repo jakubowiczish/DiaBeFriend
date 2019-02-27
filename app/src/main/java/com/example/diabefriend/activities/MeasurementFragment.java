@@ -95,12 +95,16 @@ public class MeasurementFragment extends Fragment {
         countDownTextView = v.findViewById(R.id.countdownView);
 
         mStartButton = v.findViewById(R.id.startButtonInSummary);
-        measurementChanged();
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startTimer();
-                setAlarm();
+                if (measurement != null) {
+                    startTimer();
+                    setAlarm();
+                } else {
+                    dialogsManager.showNoMeasurementFoundDialog(getContext());
+                }
+
             }
         });
 
@@ -131,16 +135,12 @@ public class MeasurementFragment extends Fragment {
             case (START_ACTIVITY_REQUEST_CODE): {
                 if (resultCode == Activity.RESULT_OK) {
                     measurement = data.getParcelableExtra(measurementString);
-                    measurementChanged();
                 }
                 break;
             }
         }
     }
 
-    private void measurementChanged() {
-        mStartButton.setEnabled(measurement != null);
-    }
 
     private void setAlarm() {
         Intent intent = new Intent(getContext(), Alarm.class);
@@ -294,7 +294,7 @@ public class MeasurementFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder.setTitle("Confirm");
-        builder.setMessage("Are you sure? Measurement data will be lost");
+        builder.setMessage("Are you sure?  Measurement data will be lost");
 
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 

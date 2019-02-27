@@ -56,6 +56,12 @@ public class SearchForProductFragment extends Fragment {
 
         v = inflater.inflate(R.layout.activity_search_for_products, container, false);
 
+        assignAndSetComponents();
+
+        return v;
+    }
+
+    private void assignAndSetComponents() {
         choiceTextView = v.findViewById(R.id.choiceTextView);
         choiceTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +75,6 @@ public class SearchForProductFragment extends Fragment {
 
         weightInGramsInput = v.findViewById(R.id.weightInGrams);
         weightInGramsInput.setVisibility(View.INVISIBLE);
-
 
         kCalNumberView = v.findViewById(R.id.kCalNumberView);
         kCalNumberView.setVisibility(View.INVISIBLE);
@@ -94,10 +99,7 @@ public class SearchForProductFragment extends Fragment {
             public void afterTextChanged(Editable s) {
             }
         });
-
-        return v;
     }
-
 
     private void updateVisibility() {
         weightInGramsTextView.setVisibility(View.VISIBLE);
