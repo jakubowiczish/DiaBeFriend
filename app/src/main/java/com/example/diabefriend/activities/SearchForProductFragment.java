@@ -182,6 +182,7 @@ public class SearchForProductFragment extends Fragment {
             public void click(String localProductName) {
                 productName = localProductName;
                 choiceTextView.setText(productName);
+                updateProductInfoTextView(products, weightInGramsInput, productName);
                 updateVisibility();
                 alertDialog.dismiss();
             }
