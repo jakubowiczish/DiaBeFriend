@@ -39,9 +39,13 @@ public class SearchForProductFragment extends Fragment {
     private List<Product> products = new ArrayList<>();
     private TextView weightInGramsTextView;
     private EditText weightInGramsInput;
-    private TextView productInfoTextView;
     private String productName;
     private TextView choiceTextView;
+
+    private TextView kCalNumberView;
+    private TextView fatNumberView;
+    private TextView carbohydratesNumberView;
+    private TextView proteinNumberView;
 
     private View v;
 
@@ -66,8 +70,15 @@ public class SearchForProductFragment extends Fragment {
         weightInGramsInput = v.findViewById(R.id.weightInGrams);
         weightInGramsInput.setVisibility(View.INVISIBLE);
 
-        productInfoTextView = v.findViewById(R.id.productInfoTextView);
-        productInfoTextView.setVisibility(View.INVISIBLE);
+
+        kCalNumberView = v.findViewById(R.id.kCalNumberView);
+        kCalNumberView.setVisibility(View.INVISIBLE);
+        fatNumberView = v.findViewById(R.id.fatNumberView);
+        fatNumberView.setVisibility(View.INVISIBLE);
+        carbohydratesNumberView = v.findViewById(R.id.carbohydratesNumberView);
+        carbohydratesNumberView.setVisibility(View.INVISIBLE);
+        proteinNumberView = v.findViewById(R.id.proteinNumberView);
+        proteinNumberView.setVisibility(View.INVISIBLE);
 
         weightInGramsInput.addTextChangedListener(new TextWatcher() {
             @Override
@@ -76,7 +87,7 @@ public class SearchForProductFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                updateProductInfoTextView(productInfoTextView, products, weightInGramsInput, productName);
+                updateProductInfoTextView(products, weightInGramsInput, productName);
             }
 
             @Override
@@ -88,25 +99,46 @@ public class SearchForProductFragment extends Fragment {
     }
 
 
-
     private void updateVisibility() {
         weightInGramsTextView.setVisibility(View.VISIBLE);
         weightInGramsInput.setVisibility(View.VISIBLE);
-        productInfoTextView.setVisibility(View.VISIBLE);
+
+        kCalNumberView.setVisibility(View.VISIBLE);
+        fatNumberView.setVisibility(View.VISIBLE);
+        carbohydratesNumberView.setVisibility(View.VISIBLE);
+        proteinNumberView.setVisibility(View.VISIBLE);
     }
 
-    private void updateProductInfoTextView(TextView productInfoTextView, List<Product> products, EditText weightInGramsInput, String productName) {
+    private void updateProductInfoTextView(List<Product> products, EditText weightInGramsInput, String productName) {
         int weightInGrams = 0;
+        Product product = new Product("", 0, 0, 0, 0, 0);
         if (!weightInGramsInput.getText().toString().equals("")) {
             try {
+                product = getProductByName(products, productName);
                 weightInGrams = getValidWeightInGrams(weightInGramsInput);
-                productInfoTextView.setText(determineTextInfo(products, productName, weightInGrams));
+                if (product != null) {
+                    setValuesForTextViews(product, weightInGrams);
+                }
             } catch (NumberFormatException e) {
-                productInfoTextView.setText("The number is too big!");
+                setInvalidTextMessageForNumberViews("The number is too big!");
             }
         } else {
-            productInfoTextView.setText(determineTextInfo(products, productName, weightInGrams));
+            setValuesForTextViews(product, weightInGrams);
         }
+    }
+
+    private void setValuesForTextViews(Product product, int weightInGrams) {
+        kCalNumberView.setText(determineCaloriesNumberText(product, weightInGrams));
+        fatNumberView.setText(determineFatNumberText(product, weightInGrams));
+        carbohydratesNumberView.setText(determineCarbohydratesNumberText(product, weightInGrams));
+        proteinNumberView.setText(determineProteinNumberText(product, weightInGrams));
+    }
+
+    private void setInvalidTextMessageForNumberViews(String message) {
+        kCalNumberView.setText(message);
+        fatNumberView.setText(message);
+        carbohydratesNumberView.setText(message);
+        proteinNumberView.setText(message);
     }
 
     private void showChoiceDialog() {
@@ -162,23 +194,31 @@ public class SearchForProductFragment extends Fragment {
         });
     }
 
-    private String determineTextInfo(List<Product> products, String productName, int weightInGrams) {
-        StringBuilder textInfoBuilder = new StringBuilder();
+    private Product getProductByName(List<Product> products, String productName) {
         for (Product product : products) {
             if (product.getName().equals(productName)) {
-                float weightInDataBase = product.getWeight();
-
-                textInfoBuilder
-                        .append("kCal: ").append(Utils.decimalFormat.format(weightInGrams * product.getkCal() / weightInDataBase))
-                        .append("\nFat: ").append(Utils.decimalFormat.format(weightInGrams * product.getFat() / weightInDataBase)).append(" g")
-                        .append("\nCarbohydrates: ").append(Utils.decimalFormat.format(weightInGrams * product.getCarbohydrates() / weightInDataBase)).append(" g")
-                        .append("\nProteins: ").append(Utils.decimalFormat.format(weightInGrams * product.getProteins() / weightInDataBase)).append(" g");
-                break;
+                return product;
             }
         }
-
-        return textInfoBuilder.toString();
+        return null;
     }
+
+    private String determineCaloriesNumberText(Product product, int weightInGrams) {
+        return Utils.decimalFormat.format(weightInGrams * product.getkCal() / product.getWeight()) + " kCal";
+    }
+
+    private String determineFatNumberText(Product product, int weightInGrams) {
+        return Utils.decimalFormat.format(weightInGrams * product.getFat() / product.getWeight()) + " g";
+    }
+
+    private String determineCarbohydratesNumberText(Product product, int weightInGrams) {
+        return Utils.decimalFormat.format(weightInGrams * product.getCarbohydrates() / product.getWeight()) + " g";
+    }
+
+    private String determineProteinNumberText(Product product, int weightInGrams) {
+        return Utils.decimalFormat.format(weightInGrams * product.getProteins() / product.getWeight()) + " g";
+    }
+
 
     private int getValidWeightInGrams(EditText weightInGramsInput) {
         return Integer.valueOf(weightInGramsInput.getText().toString());

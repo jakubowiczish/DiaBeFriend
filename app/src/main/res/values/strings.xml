@@ -46,4 +46,8 @@
     <string name="title_search">Search for product</string>
     <string name="title_notifications">Notifications</string>
     <string name="application_title">DiaBeFriend</string>
+    <string name="kCal_string">kCal:</string>
+    <string name="fat_string">Fat:</string>
+    <string name="carbohydrates_string">Carbohydrates:</string>
+    <string name="protein_string">Proteins:</string>
 </resources>
