@@ -10,7 +10,9 @@ import com.example.diabefriend.model.Measurement;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -54,7 +56,10 @@ public class SummaryActivity extends AppCompatActivity {
     }
 
     private void getMeasurementFromPreferences() {
-        SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.preferences_string), MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences(
+                getResources().getString(R.string.preferences_string),
+                MODE_PRIVATE
+        );
         measurement = Utils.createMeasurementFromJson(
                 preferences,
                 getResources().getString(R.string.measurement_string)
@@ -71,6 +76,13 @@ public class SummaryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 handleUserInput();
+                try {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                } catch (Exception e) {
+                    Log.wtf("Keyboard hide", "Problem with hiding keyboard");
+                    e.printStackTrace();
+                }
             }
         });
 

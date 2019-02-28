@@ -78,6 +78,7 @@ public class StartActivity extends AppCompatActivity {
                     Float.valueOf(insulinUnitsInput.getText().toString()),
                     Integer.valueOf(sugarLevelInput.getText().toString())
             );
+
             Intent resultIntent = new Intent();
             resultIntent.putExtra(getResources().getString(R.string.measurement_string), measurement);
             setResult(Activity.RESULT_OK, resultIntent);

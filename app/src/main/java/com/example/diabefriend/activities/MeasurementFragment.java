@@ -137,8 +137,10 @@ public class MeasurementFragment extends Fragment {
     private void setAlarm() {
         Intent intent = new Intent(getContext(), Alarm.class);
 
-        SharedPreferences preferences = getActivity()
-                .getSharedPreferences(getResources().getString(R.string.preferences_string), MODE_PRIVATE);
+        SharedPreferences preferences = getActivity().getSharedPreferences(
+                getResources().getString(R.string.preferences_string),
+                MODE_PRIVATE
+        );
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(
                 getResources().getString(R.string.measurement_string),
@@ -150,15 +152,25 @@ public class MeasurementFragment extends Fragment {
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS, pendingIntent);
+            alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    System.currentTimeMillis() + TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS,
+                    pendingIntent
+            );
         } else {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS, pendingIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP,
+                    System.currentTimeMillis() + TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS,
+                    pendingIntent
+            );
         }
     }
 
     private void cancelAlarm() {
         Intent intent = new Intent(getContext(), Alarm.class);
-        intent.putExtra(getResources().getString(R.string.measurement_string), measurement);
+        intent.putExtra(
+                getResources().getString(R.string.measurement_string),
+                measurement
+        );
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 1, intent, 0);
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
@@ -168,8 +180,10 @@ public class MeasurementFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        SharedPreferences preferences = getActivity()
-                .getSharedPreferences(getResources().getString(R.string.preferences_string), MODE_PRIVATE);
+        SharedPreferences preferences = getActivity().getSharedPreferences(
+                getResources().getString(R.string.preferences_string),
+                MODE_PRIVATE
+        );
 
         mTimerIsRunning = preferences.getBoolean(
                 getResources().getString(R.string.timer_is_running_string),
@@ -191,6 +205,7 @@ public class MeasurementFragment extends Fragment {
                     preferences,
                     getResources().getString(R.string.measurement_string)
             );
+
             mEndTime = preferences.getLong(getResources().getString(R.string.end_time_string), 0);
             mTimeLeftInMillis = mEndTime - System.currentTimeMillis();
 
@@ -212,8 +227,10 @@ public class MeasurementFragment extends Fragment {
     public void onStop() {
         super.onStop();
 
-        SharedPreferences preferences = getActivity()
-                .getSharedPreferences(getResources().getString(R.string.preferences_string), MODE_PRIVATE);
+        SharedPreferences preferences = getActivity().getSharedPreferences(
+                getResources().getString(R.string.preferences_string),
+                MODE_PRIVATE
+        );
         SharedPreferences.Editor editor = preferences.edit();
 
         editor.putString(

@@ -119,6 +119,7 @@ public class SearchForProductFragment extends Fragment {
     private void updateProductInfoTextView(List<Product> products, EditText weightInGramsInput, String productName) {
         int weightInGrams = 0;
         Product product = new Product("", 0, 0, 0, 0, 0);
+
         if (!weightInGramsInput.getText().toString().equals("")) {
             try {
                 product = dataManager.getProductByName(products, productName);
@@ -229,5 +230,4 @@ public class SearchForProductFragment extends Fragment {
     private int getValidWeightInGrams(EditText weightInGramsInput) {
         return Integer.valueOf(weightInGramsInput.getText().toString());
     }
-
 }
