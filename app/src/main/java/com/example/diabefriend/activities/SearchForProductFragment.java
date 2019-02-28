@@ -237,7 +237,7 @@ public class SearchForProductFragment extends Fragment {
     }
 
     private void readProductsData() {
-        InputStream inputStream = getResources().openRawResource(R.raw.productsdata);
+        InputStream inputStream = getResources().openRawResource(R.raw.productsdatabase);
         BufferedReader bufferedReader = new BufferedReader(
                 new InputStreamReader(inputStream, Charset.forName("UTF-8"))
         );
@@ -245,7 +245,7 @@ public class SearchForProductFragment extends Fragment {
         String line = "";
         try {
             while ((line = bufferedReader.readLine()) != null) {
-                String[] tokens = line.split(";");
+                String[] tokens = line.split("\t");
                 Product product = new Product(
                         tokens[0],
                         Float.parseFloat(tokens[1]),
