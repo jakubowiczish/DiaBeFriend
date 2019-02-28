@@ -18,6 +18,7 @@ public class Alarm extends BroadcastReceiver {
         Intent intent1 = new Intent(context, SummaryActivity.class);
         intent1.putExtra(MeasurementFragment.measurementString, intent.getParcelableExtra(MeasurementFragment.measurementString));
         context.startActivity(intent1);
+
         Toast.makeText(context, "IT IS TIME TO TEST YOUR SUGAR LEVEL!", Toast.LENGTH_LONG).show();
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         MediaPlayer mp = MediaPlayer.create(context, notification);

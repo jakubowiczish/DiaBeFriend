@@ -2,8 +2,6 @@ package com.example.diabefriend.activities;
 
 
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 
 import com.example.diabefriend.dialogs.DialogsManager;
@@ -38,9 +36,8 @@ public class SummaryActivity extends AppCompatActivity {
     private ImageView insulinImage;
     private ImageView sugarBeforeImage;
     private ImageView sugarAfterImage;
-
-
     private ImageView faceImageView;
+
     private DialogsManager dialogsManager;
 
     @Override
@@ -49,11 +46,20 @@ public class SummaryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_summary);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        dialogsManager = new DialogsManager();
 
+        getMeasurementFromPreferences();
+        assignAndSetComponents();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void getMeasurementFromPreferences() {
         SharedPreferences preferences = getSharedPreferences(MeasurementFragment.preferencesString, MODE_PRIVATE);
-
         measurement = Utils.createMeasurementFromJson(preferences, MeasurementFragment.measurementString);
+    }
+
+    private void assignAndSetComponents() {
+        dialogsManager = new DialogsManager();
 
         sugarLevelInputAfterMeal = findViewById(R.id.sugarLevelInputAfterMeal);
 
@@ -61,16 +67,10 @@ public class SummaryActivity extends AppCompatActivity {
         summarizeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handleUserInput(sugarLevelInputAfterMeal);
+                handleUserInput();
             }
         });
 
-        assignAndSetComponents();
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void assignAndSetComponents() {
         carbohydratesText = findViewById(R.id.carbohydratesTextSummary);
         carbohydratesText.setVisibility(View.INVISIBLE);
 
@@ -99,7 +99,7 @@ public class SummaryActivity extends AppCompatActivity {
         faceImageView.setVisibility(View.INVISIBLE);
     }
 
-    private void updateVisibility() {
+    private void updateVisibilityOfComponents() {
         carbohydratesText.setVisibility(View.VISIBLE);
         insulinText.setVisibility(View.VISIBLE);
         sugarBeforeText.setVisibility(View.VISIBLE);
@@ -113,7 +113,7 @@ public class SummaryActivity extends AppCompatActivity {
 
     }
 
-    private boolean checkSugarLevelInput(EditText sugarLevelInputAfterMeal) {
+    private boolean checkSugarLevelInput() {
         if (sugarLevelInputAfterMeal.getText().toString().equals("")) {
             return false;
         }
@@ -125,8 +125,9 @@ public class SummaryActivity extends AppCompatActivity {
         return true;
     }
 
-    private void handleUserInput(EditText sugarLevelInputAfterMeal) {
-        boolean inputIsValid = checkSugarLevelInput(sugarLevelInputAfterMeal);
+
+    private void handleUserInput() {
+        boolean inputIsValid = checkSugarLevelInput();
 
         if (inputIsValid) {
             resultMeasurement = new ResultMeasurement(
@@ -145,12 +146,13 @@ public class SummaryActivity extends AppCompatActivity {
                 showSadFace();
             }
 
-            updateVisibility();
+            updateVisibilityOfComponents();
 
         } else {
             dialogsManager.showInvalidInputDialog(this);
         }
     }
+
 
     private void showHappyFace() {
         faceImageView.setImageResource(R.drawable.ic_happy_face);
@@ -163,38 +165,30 @@ public class SummaryActivity extends AppCompatActivity {
         faceImageView.setVisibility(View.VISIBLE);
     }
 
-    private String createTextForSummary(ResultMeasurement resultMeasurement) {
-        int carbohydratesInGrams = resultMeasurement.getMeasurement().getCarbohydratesInGrams();
-        float insulinInUnits = resultMeasurement.getMeasurement().getInsulinInUnits();
-        int sugarLevelBeforeMeal = resultMeasurement.getMeasurement().getSugarLevelBeforeMeal();
-        int sugarLevelAfterMeal = resultMeasurement.getSugarLevelAfterMeal();
-
-        return "Carbohydrates eaten: " + carbohydratesInGrams + " grams\n"
-                + "Insulin taken: " + insulinInUnits + " units\n"
-                + "Sugar level before meal: " + sugarLevelBeforeMeal + " mg/dL\n"
-                + "Sugar level after meal: " + sugarLevelAfterMeal + " mg/dL\n";
-    }
 
     private String determineCarbohydratesText(ResultMeasurement resultMeasurement) {
         int carbohydratesInGrams = resultMeasurement.getMeasurement().getCarbohydratesInGrams();
         return "Carbohydrates eaten: " + carbohydratesInGrams + " grams\n";
     }
 
+
     private String determineInulinText(ResultMeasurement resultMeasurement) {
         float insulinInUnits = resultMeasurement.getMeasurement().getInsulinInUnits();
         return "Insulin taken: " + insulinInUnits + " units\n";
     }
 
+
     private String determineSugarBeforeText(ResultMeasurement resultMeasurement) {
         int sugarLevelBeforeMeal = resultMeasurement.getMeasurement().getSugarLevelBeforeMeal();
         return "Sugar level before meal: " + sugarLevelBeforeMeal + " mg/dL\n";
-
     }
+
 
     private String determineSugarAfterText(ResultMeasurement resultMeasurement) {
         int sugarLevelAfterMeal = resultMeasurement.getSugarLevelAfterMeal();
         return "Sugar level after meal: " + sugarLevelAfterMeal + " mg/dL\n";
     }
+
 
     private int sugarLevelStandard(boolean measurementBeforeMeal, int sugarLevel) {
         if (measurementBeforeMeal) {
