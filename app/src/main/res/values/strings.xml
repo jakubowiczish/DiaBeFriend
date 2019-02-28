@@ -26,7 +26,7 @@
     <string name="existing_measurement_in_the_background">There is already an existing measurement in the background!</string>
     <string name="unable_to_find_current_measurement_title">No measurement is found!</string>
     <string name="no_existing_measurement">There is no measurement available at the moment</string>
-    <string name="title_activity_summary">SummaryActivity</string>
+    <string name="title_activity_summary">Summary</string>
     <string name="it_is_time">Hey! It\'s time</string>
     <string name="test_your_sugar_level">Test your sugar level!</string>
     <string name="summarize_button_name">Summarize</string>

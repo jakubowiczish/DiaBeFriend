@@ -3,6 +3,7 @@ package com.example.diabefriend.activities;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
 
 import com.example.diabefriend.dialogs.DialogsManager;
@@ -27,7 +28,18 @@ public class SummaryActivity extends AppCompatActivity {
     private ResultMeasurement resultMeasurement;
     private EditText sugarLevelInputAfterMeal;
     private Button summarizeButton;
-    private TextView summaryTextView;
+
+    private TextView carbohydratesText;
+    private TextView insulinText;
+    private TextView sugarBeforeText;
+    private TextView sugarAfterText;
+
+    private ImageView carbohydratesImage;
+    private ImageView insulinImage;
+    private ImageView sugarBeforeImage;
+    private ImageView sugarAfterImage;
+
+
     private ImageView faceImageView;
     private DialogsManager dialogsManager;
 
@@ -49,16 +61,56 @@ public class SummaryActivity extends AppCompatActivity {
         summarizeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handleUserInput(sugarLevelInputAfterMeal, summaryTextView);
+                handleUserInput(sugarLevelInputAfterMeal);
             }
         });
 
-        summaryTextView = findViewById(R.id.summaryTextView);
+        assignAndSetComponents();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void assignAndSetComponents() {
+        carbohydratesText = findViewById(R.id.carbohydratesTextSummary);
+        carbohydratesText.setVisibility(View.INVISIBLE);
+
+        insulinText = findViewById(R.id.insulinTextSummary);
+        insulinText.setVisibility(View.INVISIBLE);
+
+        sugarBeforeText = findViewById(R.id.sugarBeforeTextSummary);
+        sugarBeforeText.setVisibility(View.INVISIBLE);
+
+        sugarAfterText = findViewById(R.id.sugarAfterTextSummary);
+        sugarAfterText.setVisibility(View.INVISIBLE);
+
+        carbohydratesImage = findViewById(R.id.carbohydratesImageViewSummary);
+        carbohydratesImage.setVisibility(View.INVISIBLE);
+
+        insulinImage = findViewById(R.id.insulinImageViewSummary);
+        insulinImage.setVisibility(View.INVISIBLE);
+
+        sugarBeforeImage = findViewById(R.id.sugarBeforeImageViewSummary);
+        sugarBeforeImage.setVisibility(View.INVISIBLE);
+
+        sugarAfterImage = findViewById(R.id.sugarAfterImageViewSummary);
+        sugarAfterImage.setVisibility(View.INVISIBLE);
 
         faceImageView = findViewById(R.id.faceImageView);
         faceImageView.setVisibility(View.INVISIBLE);
+    }
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    private void updateVisibility() {
+        carbohydratesText.setVisibility(View.VISIBLE);
+        insulinText.setVisibility(View.VISIBLE);
+        sugarBeforeText.setVisibility(View.VISIBLE);
+        sugarAfterText.setVisibility(View.VISIBLE);
+
+        carbohydratesImage.setVisibility(View.VISIBLE);
+        insulinImage.setVisibility(View.VISIBLE);
+        sugarBeforeImage.setVisibility(View.VISIBLE);
+        sugarAfterImage.setVisibility(View.VISIBLE);
+        faceImageView.setVisibility(View.VISIBLE);
+
     }
 
     private boolean checkSugarLevelInput(EditText sugarLevelInputAfterMeal) {
@@ -73,7 +125,7 @@ public class SummaryActivity extends AppCompatActivity {
         return true;
     }
 
-    private void handleUserInput(EditText sugarLevelInputAfterMeal, TextView summaryTextView) {
+    private void handleUserInput(EditText sugarLevelInputAfterMeal) {
         boolean inputIsValid = checkSugarLevelInput(sugarLevelInputAfterMeal);
 
         if (inputIsValid) {
@@ -82,18 +134,18 @@ public class SummaryActivity extends AppCompatActivity {
                     Integer.valueOf(sugarLevelInputAfterMeal.getText().toString())
             );
 
-
-            String summaryString = createTextForSummary(resultMeasurement);
-            summaryTextView.setText(summaryString);
+            carbohydratesText.setText(determineCarbohydratesText(resultMeasurement));
+            insulinText.setText(determineInulinText(resultMeasurement));
+            sugarBeforeText.setText(determineSugarBeforeText(resultMeasurement));
+            sugarAfterText.setText(determineSugarAfterText(resultMeasurement));
 
             if (sugarLevelStandard(false, resultMeasurement.getSugarLevelAfterMeal()) == 1) {
-                summaryTextView.setTextColor(Color.parseColor("#33691e"));
                 showHappyFace();
-
             } else {
-                summaryTextView.setTextColor(Color.parseColor("#c62828"));
                 showSadFace();
             }
+
+            updateVisibility();
 
         } else {
             dialogsManager.showInvalidInputDialog(this);
@@ -117,37 +169,31 @@ public class SummaryActivity extends AppCompatActivity {
         int sugarLevelBeforeMeal = resultMeasurement.getMeasurement().getSugarLevelBeforeMeal();
         int sugarLevelAfterMeal = resultMeasurement.getSugarLevelAfterMeal();
 
-        String result = "You have eaten "
-                + carbohydratesInGrams + " grams of carbohydrates,"
-                + " your insulin dosage was " + insulinInUnits + " units"
-                + " and your blood sugar level was " + sugarLevelBeforeMeal;
+        return "Carbohydrates eaten: " + carbohydratesInGrams + " grams\n"
+                + "Insulin taken: " + insulinInUnits + " units\n"
+                + "Sugar level before meal: " + sugarLevelBeforeMeal + " mg/dL\n"
+                + "Sugar level after meal: " + sugarLevelAfterMeal + " mg/dL\n";
+    }
 
-        String sugarLevelBeforeMealString;
+    private String determineCarbohydratesText(ResultMeasurement resultMeasurement) {
+        int carbohydratesInGrams = resultMeasurement.getMeasurement().getCarbohydratesInGrams();
+        return "Carbohydrates eaten: " + carbohydratesInGrams + " grams\n";
+    }
 
-        if (sugarLevelStandard(true, sugarLevelBeforeMeal) == 1) {
-            sugarLevelBeforeMealString = ", which was a normal sugar level for a diabetic before meal.\n";
-        } else if (sugarLevelStandard(true, sugarLevelBeforeMeal) == 2) {
-            sugarLevelBeforeMealString = ", which was too high sugar level for a diabetic before meal.\n";
-        } else {
-            sugarLevelBeforeMealString = ", which was too low sugar level for a diabetic before meal.\n";
-        }
+    private String determineInulinText(ResultMeasurement resultMeasurement) {
+        float insulinInUnits = resultMeasurement.getMeasurement().getInsulinInUnits();
+        return "Insulin taken: " + insulinInUnits + " units\n";
+    }
 
-        result += sugarLevelBeforeMealString +
-                "Your sugar level after meal is " + sugarLevelAfterMeal;
+    private String determineSugarBeforeText(ResultMeasurement resultMeasurement) {
+        int sugarLevelBeforeMeal = resultMeasurement.getMeasurement().getSugarLevelBeforeMeal();
+        return "Sugar level before meal: " + sugarLevelBeforeMeal + " mg/dL\n";
 
-        String sugarLevelAfterMealString;
+    }
 
-        if (sugarLevelStandard(false, sugarLevelAfterMeal) == 1) {
-            sugarLevelAfterMealString = ", which is a normal sugar level for a diabetic after meal\n";
-        } else if (sugarLevelStandard(false, sugarLevelBeforeMeal) == 2) {
-            sugarLevelAfterMealString = ", which is too high sugar level for a diabetic after meal\n";
-        } else {
-            sugarLevelAfterMealString = ", which is too low sugar level for a diabetic after meal\n";
-        }
-
-        result += sugarLevelAfterMealString;
-
-        return result;
+    private String determineSugarAfterText(ResultMeasurement resultMeasurement) {
+        int sugarLevelAfterMeal = resultMeasurement.getSugarLevelAfterMeal();
+        return "Sugar level after meal: " + sugarLevelAfterMeal + " mg/dL\n";
     }
 
     private int sugarLevelStandard(boolean measurementBeforeMeal, int sugarLevel) {
