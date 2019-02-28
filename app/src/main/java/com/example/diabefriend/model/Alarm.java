@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.widget.Toast;
 
 import com.example.diabefriend.R;
-import com.example.diabefriend.activities.MeasurementFragment;
 import com.example.diabefriend.activities.SummaryActivity;
 
 public class Alarm extends BroadcastReceiver {
