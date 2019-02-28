@@ -60,7 +60,7 @@ public class SearchForProductFragment extends Fragment {
 
     private void readProductsData() {
         dataManager = new DataManager(getContext());
-        dataManager.readProductsData();
+        products = dataManager.readProductsData();
     }
 
 

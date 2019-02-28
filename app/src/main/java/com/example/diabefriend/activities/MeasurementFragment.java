@@ -37,18 +37,11 @@ import static android.content.Context.MODE_PRIVATE;
 public class MeasurementFragment extends Fragment {
 
     private static final int START_ACTIVITY_REQUEST_CODE = 1;
+    private static final int TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 3000; // 2 hours = 7200000 millis
 
     public MeasurementFragment() {
     }
 
-    private static final int TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 3000; // 2 hours = 7200000 millis
-    private static final String millisLeftString = "millisLeftString";
-    private static final String endTimeString = "endTime";
-    public static final String preferencesString = "preferences";
-    private static final String progressBarStatusString = "progressBarStatus";
-    private static final String timerIsRunningString = "timerIsRunning";
-    public static final String measurementString = "measurement";
-    private static final String countdownIsFinishedString = "countdownIsFinished";
     private DialogsManager dialogsManager;
 
     private MaterialButton mDosageInformationButton;
@@ -58,8 +51,8 @@ public class MeasurementFragment extends Fragment {
     private FloatingActionButton mStartButton;
     private FloatingActionButton mResetButton;
 
-    private CountDownTimer mCountDownTimer;
     public static boolean mTimerIsRunning;
+    private CountDownTimer mCountDownTimer;
     private boolean mCountDownIsFinished;
 
     private MaterialProgressBar mProgressBar;
@@ -134,7 +127,7 @@ public class MeasurementFragment extends Fragment {
         switch (requestCode) {
             case (START_ACTIVITY_REQUEST_CODE): {
                 if (resultCode == Activity.RESULT_OK) {
-                    measurement = data.getParcelableExtra(measurementString);
+                    measurement = data.getParcelableExtra(getResources().getString(R.string.measurement_string));
                 }
                 break;
             }
@@ -145,9 +138,13 @@ public class MeasurementFragment extends Fragment {
     private void setAlarm() {
         Intent intent = new Intent(getContext(), Alarm.class);
 
-        SharedPreferences preferences = getActivity().getSharedPreferences(preferencesString, MODE_PRIVATE);
+        SharedPreferences preferences = getActivity()
+                .getSharedPreferences(getResources().getString(R.string.preferences_string), MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(measurementString, Utils.createMeasurementJsonString(measurement));
+        editor.putString(
+                getResources().getString(R.string.measurement_string),
+                Utils.createMeasurementJsonString(measurement)
+        );
         editor.apply();
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 1, intent, 0);
@@ -162,7 +159,7 @@ public class MeasurementFragment extends Fragment {
 
     private void cancelAlarm() {
         Intent intent = new Intent(getContext(), Alarm.class);
-        intent.putExtra(measurementString, measurement);
+        intent.putExtra(getResources().getString(R.string.measurement_string), measurement);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 1, intent, 0);
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
@@ -172,17 +169,30 @@ public class MeasurementFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        SharedPreferences preferences = getActivity().getSharedPreferences(preferencesString, MODE_PRIVATE);
+        SharedPreferences preferences = getActivity()
+                .getSharedPreferences(getResources().getString(R.string.preferences_string), MODE_PRIVATE);
 
-        mTimerIsRunning = preferences.getBoolean(timerIsRunningString, false);
-        mTimeLeftInMillis = preferences.getLong(millisLeftString, TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS);
-        mCountDownIsFinished = preferences.getBoolean(countdownIsFinishedString, false);
+        mTimerIsRunning = preferences.getBoolean(
+                getResources().getString(R.string.timer_is_running_string),
+                false
+        );
+        mTimeLeftInMillis = preferences.getLong(
+                getResources().getString(R.string.millis_left_string),
+                TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS
+        );
+        mCountDownIsFinished = preferences.getBoolean(
+                getResources().getString(R.string.countdown_is_finished_string),
+                false
+        );
 
         updateCountDownTextView();
 
         if (mTimerIsRunning) {
-            measurement = Utils.createMeasurementFromJson(preferences, measurementString);
-            mEndTime = preferences.getLong(endTimeString, 0);
+            measurement = Utils.createMeasurementFromJson(
+                    preferences,
+                    getResources().getString(R.string.measurement_string)
+            );
+            mEndTime = preferences.getLong(getResources().getString(R.string.end_time_string), 0);
             mTimeLeftInMillis = mEndTime - System.currentTimeMillis();
 
             mProgressBarStatus = countProgressBarStatus(mTimeLeftInMillis);
@@ -203,15 +213,34 @@ public class MeasurementFragment extends Fragment {
     public void onStop() {
         super.onStop();
 
-        SharedPreferences preferences = getActivity().getSharedPreferences(preferencesString, MODE_PRIVATE);
+        SharedPreferences preferences = getActivity()
+                .getSharedPreferences(getResources().getString(R.string.preferences_string), MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
-        editor.putString(measurementString, Utils.createMeasurementJsonString(measurement));
-        editor.putBoolean(timerIsRunningString, mTimerIsRunning);
-        editor.putBoolean(countdownIsFinishedString, mCountDownIsFinished);
-        editor.putLong(millisLeftString, mTimeLeftInMillis);
-        editor.putLong(endTimeString, mEndTime);
-        editor.putInt(progressBarStatusString, mProgressBarStatus);
+        editor.putString(
+                getResources().getString(R.string.measurement_string),
+                Utils.createMeasurementJsonString(measurement)
+        );
+        editor.putBoolean(
+                getResources().getString(R.string.timer_is_running_string),
+                mTimerIsRunning
+        );
+        editor.putBoolean(
+                getResources().getString(R.string.countdown_is_finished_string),
+                mCountDownIsFinished
+        );
+        editor.putLong(
+                getResources().getString(R.string.millis_left_string),
+                mTimeLeftInMillis
+        );
+        editor.putLong(
+                getResources().getString(R.string.end_time_string),
+                mEndTime
+        );
+        editor.putInt(
+                getResources().getString(R.string.progress_bar_status_string),
+                mProgressBarStatus
+        );
 
         editor.apply();
 

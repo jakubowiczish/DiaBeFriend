@@ -79,7 +79,7 @@ public class StartActivity extends AppCompatActivity {
                     Integer.valueOf(sugarLevelInput.getText().toString())
             );
             Intent resultIntent = new Intent();
-            resultIntent.putExtra("measurement", measurement);
+            resultIntent.putExtra(getResources().getString(R.string.measurement_string), measurement);
             setResult(Activity.RESULT_OK, resultIntent);
             finish();
         } else {

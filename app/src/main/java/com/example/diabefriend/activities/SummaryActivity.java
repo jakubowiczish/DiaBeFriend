@@ -54,8 +54,11 @@ public class SummaryActivity extends AppCompatActivity {
     }
 
     private void getMeasurementFromPreferences() {
-        SharedPreferences preferences = getSharedPreferences(MeasurementFragment.preferencesString, MODE_PRIVATE);
-        measurement = Utils.createMeasurementFromJson(preferences, MeasurementFragment.measurementString);
+        SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.preferences_string), MODE_PRIVATE);
+        measurement = Utils.createMeasurementFromJson(
+                preferences,
+                getResources().getString(R.string.measurement_string)
+        );
     }
 
     private void assignAndSetComponents() {

@@ -51,4 +51,11 @@
     <string name="carbohydrates_string">Carbohydrates:</string>
     <string name="protein_string">Proteins:</string>
     <string name="no_measurement_found_dialog_title">No measurement found!</string>
+    <string name="millis_left_string">millisLeftString</string>
+    <string name="end_time_string">endTime</string>
+    <string name="preferences_string">preferences</string>
+    <string name="measurement_string">measurement</string>
+    <string name="progress_bar_status_string">progressBarStatus</string>
+    <string name="timer_is_running_string">timerIsRunning</string>
+    <string name="countdown_is_finished_string">countdownIsFinished</string>
 </resources>
