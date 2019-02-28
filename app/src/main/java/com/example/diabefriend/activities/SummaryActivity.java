@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.diabefriend.R;
@@ -27,6 +28,7 @@ public class SummaryActivity extends AppCompatActivity {
     private EditText sugarLevelInputAfterMeal;
     private Button summarizeButton;
     private TextView summaryTextView;
+    private ImageView faceImageView;
     private DialogsManager dialogsManager;
 
     @Override
@@ -52,6 +54,9 @@ public class SummaryActivity extends AppCompatActivity {
         });
 
         summaryTextView = findViewById(R.id.summaryTextView);
+
+        faceImageView = findViewById(R.id.faceImageView);
+        faceImageView.setVisibility(View.INVISIBLE);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -82,14 +87,28 @@ public class SummaryActivity extends AppCompatActivity {
             summaryTextView.setText(summaryString);
 
             if (sugarLevelStandard(false, resultMeasurement.getSugarLevelAfterMeal()) == 1) {
-                summaryTextView.setTextColor(Color.GREEN);
+                summaryTextView.setTextColor(Color.parseColor("#33691e"));
+                showHappyFace();
+
             } else {
-                summaryTextView.setTextColor(Color.RED);
+                summaryTextView.setTextColor(Color.parseColor("#c62828"));
+                showSadFace();
             }
 
         } else {
             dialogsManager.showInvalidInputDialog(this);
         }
+    }
+
+    private void showHappyFace() {
+        faceImageView.setImageResource(R.drawable.ic_happy_face);
+        faceImageView.setVisibility(View.VISIBLE);
+
+    }
+
+    private void showSadFace() {
+        faceImageView.setImageResource(R.drawable.ic_sad_face);
+        faceImageView.setVisibility(View.VISIBLE);
     }
 
     private String createTextForSummary(ResultMeasurement resultMeasurement) {

@@ -41,7 +41,7 @@ public class MeasurementFragment extends Fragment {
     public MeasurementFragment() {
     }
 
-    private static final int TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 10000; // 2 hours = 7200000 millis
+    private static final int TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 3000; // 2 hours = 7200000 millis
     private static final String millisLeftString = "millisLeftString";
     private static final String endTimeString = "endTime";
     public static final String preferencesString = "preferences";
