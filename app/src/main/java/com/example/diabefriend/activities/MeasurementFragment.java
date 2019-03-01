@@ -36,7 +36,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class MeasurementFragment extends Fragment {
 
     private static final int START_ACTIVITY_REQUEST_CODE = 1;
-    private static final int TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 3000; // 2 hours = 7200000 millis
+    private static final int TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 7200000; // 2 hours = 7200000 millis
 
     public MeasurementFragment() {
     }

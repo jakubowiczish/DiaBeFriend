@@ -2,6 +2,9 @@ package com.example.diabefriend.activities;
 
 
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.example.diabefriend.dialogs.DialogsManager;
@@ -21,6 +24,7 @@ import android.widget.TextView;
 import com.example.diabefriend.R;
 import com.example.diabefriend.model.ResultMeasurement;
 import com.example.diabefriend.model.Utils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class SummaryActivity extends AppCompatActivity {
 
@@ -41,6 +45,8 @@ public class SummaryActivity extends AppCompatActivity {
     private ImageView faceImageView;
 
     private DialogsManager dialogsManager;
+    private MediaPlayer mediaPlayer;
+    private FloatingActionButton pauseButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +55,29 @@ public class SummaryActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        startAlarmSound();
+
         getMeasurementFromPreferences();
         assignAndSetComponents();
 
+        setStopAlarmSoundButton();
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void startAlarmSound() {
+        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        mediaPlayer = MediaPlayer.create(this, notification);
+        mediaPlayer.start();
+    }
+
+    private void setStopAlarmSoundButton() {
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               mediaPlayer.stop();
+            }
+        });
     }
 
     private void getMeasurementFromPreferences() {
@@ -112,6 +137,8 @@ public class SummaryActivity extends AppCompatActivity {
 
         faceImageView = findViewById(R.id.faceImageView);
         faceImageView.setVisibility(View.INVISIBLE);
+
+        pauseButton = findViewById(R.id.pauseButton);
     }
 
     private void updateVisibilityOfComponents() {
