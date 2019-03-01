@@ -2,6 +2,9 @@
 
 Simple android application that is dedicated to help you handle your diabetes
 
+DiaBeFriend is not currently available on Google Play Store, but you can download it from the link below:
+https://1drv.ms/u/s!AhhUCOE2-Bg2-W_YY03_FiCEAkjb
+
 ## Features provided by the app:
 
 * You can use offline database with nutritional data like: kilocalories, carbohydrates, fat and proteins.
