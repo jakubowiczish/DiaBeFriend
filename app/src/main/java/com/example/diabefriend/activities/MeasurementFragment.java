@@ -339,7 +339,7 @@ public class MeasurementFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder.setTitle("Confirm");
-        builder.setMessage("Are you sure?  Measurement data will be lost");
+        builder.setMessage("Are you sure?  Tbe timer will be stopped");
 
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
