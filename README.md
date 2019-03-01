@@ -7,26 +7,25 @@ Simple android application that is dedicated to help you handle your diabetes
 * You can use offline database with nutritional data like: kilocalories, carbohydrates, fat and proteins.
   Just provide app with product name and its weight
   
-![image](https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/IMG_20190301_012231.jpg?token=AccQPRxXllUNPHOn8DiguDF6SUley3Fjks5cgbguwA%3D%3D)
-
+<img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/IMG_20190301_012231.jpg?token=AccQPRxXllUNPHOn8DiguDF6SUley3Fjks5cgbguwA%3D%3D" alt="DiaBeFriend" width="40%">
+ 
 * I am diabetic myself and for me it is crucial to be reminded about the necessity of measurement after meal. 
 Therefore you are welcomed to use the measurement feature. You can enter how many carbohydrates there is in your meal, 
 how many insulin units you gave yourself and sugar level before the meal. You will be reminded about testing sugar level after 2 hours.
 Then your whole measurement will be summarized, which will help you keep your diary.
 
-![image](https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/IMG_20190301_012215.jpg?token=AccQPcnm4aLrc09jZsnN-d4DL-QyJcd3ks5cgbeLwA%3D%3D)
+<img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/IMG_20190301_012215.jpg?token=AccQPcnm4aLrc09jZsnN-d4DL-QyJcd3ks5cgbeLwA%3D%3D" alt="DiaBeFriend" width="40%">
 
 Summary examples:
 
-![image](https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/IMG_20190301_012255.jpg?token=AccQPbXNEzbhBczFarCJ0Hu0jTmLqWzLks5cgbhdwA%3D%3D)
+<img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/IMG_20190301_012255.jpg?token=AccQPbXNEzbhBczFarCJ0Hu0jTmLqWzLks5cgbhdwA%3D%3D" alt="DiaBeFriend" width="40%">
 
-![image](https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/IMG_20190301_012437.jpg?token=AccQPfhlHjS4hRskLI5peWKOIQffDOkUks5cgbjJwA%3D%3D)
-
+<img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/IMG_20190301_012437.jpg?token=AccQPfhlHjS4hRskLI5peWKOIQffDOkUks5cgbjJwA%3D%3D" alt="DiaBeFriend" width="40%">
 
 Timer:
 
-![image](https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/IMG_20190301_012320.jpg?token=AccQPQ7f1siYY8laCP9MKxHf4qOAjmO9ks5cgbiEwA%3D%3D)
+<img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/IMG_20190301_012320.jpg?token=AccQPQ7f1siYY8laCP9MKxHf4qOAjmO9ks5cgbiEwA%3D%3D" alt="DiaBeFriend" width="40%">
 
 Information about dosage:
 
-![image](https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/IMG_20190301_012330.jpg?token=AccQPX-3jFXelFtNH2j3MFaatSCjNGZ6ks5cgbipwA%3D%3D)
+<img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/IMG_20190301_012330.jpg?token=AccQPX-3jFXelFtNH2j3MFaatSCjNGZ6ks5cgbipwA%3D%3D" alt="DiaBeFriend" width="40%">
