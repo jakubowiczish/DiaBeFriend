@@ -8,7 +8,7 @@ Simple android application that is dedicated to help you handle your diabetes
   Just provide app with product name (you may choose product name from the list of about 7000 products) and its weight
   
 <p align="center">
-<img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/IMG_20190301_012231.jpg?token=AccQPRxXllUNPHOn8DiguDF6SUley3Fjks5cgbguwA%3D%3D" alt="DiaBeFriend" width="40%">
+<img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/searchForProduct.jpg" alt="DiaBeFriend" width="40%">
 </p>
 
 
@@ -18,26 +18,26 @@ how many insulin units you gave yourself and sugar level before the meal. You wi
 Then your whole measurement will be summarized, which will help you keep your diary.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/IMG_20190301_012215.jpg?token=AccQPcnm4aLrc09jZsnN-d4DL-QyJcd3ks5cgbeLwA%3D%3D" alt="DiaBeFriend" width="40%">
+<img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/let'sBegin.jpg" alt="DiaBeFriend" width="40%">
 </p>
 
 Summary examples:
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/IMG_20190301_012255.jpg?token=AccQPbXNEzbhBczFarCJ0Hu0jTmLqWzLks5cgbhdwA%3D%3D" alt="DiaBeFriend" width="40%">
+<img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/goodSugarSummary.jpg" alt="DiaBeFriend" width="40%">
 </p>
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/IMG_20190301_012437.jpg?token=AccQPfhlHjS4hRskLI5peWKOIQffDOkUks5cgbjJwA%3D%3D" alt="DiaBeFriend" width="40%">
+<img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/badSugarSummary.jpg" alt="DiaBeFriend" width="40%">
 </p>
 
 Timer:
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/IMG_20190301_012320.jpg?token=AccQPQ7f1siYY8laCP9MKxHf4qOAjmO9ks5cgbiEwA%3D%3D" alt="DiaBeFriend" width="40%">
+<img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/timer.jpg" alt="DiaBeFriend" width="40%">
 </p>
 
 Information about dosage:
 <p align="center">
-<img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/IMG_20190301_012330.jpg?token=AccQPX-3jFXelFtNH2j3MFaatSCjNGZ6ks5cgbipwA%3D%3D" alt="DiaBeFriend" width="40%">
+<img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/dosageInformation.jpg" alt="DiaBeFriend" width="40%">
 </p>
