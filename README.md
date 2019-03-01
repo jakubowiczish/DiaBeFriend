@@ -5,7 +5,7 @@ Simple android application that is dedicated to help you handle your diabetes
 ## Features provided by the app:
 
 * You can use offline database with nutritional data like: kilocalories, carbohydrates, fat and proteins.
-  Just provide app with product name and its weight
+  Just provide app with product name (you may choose product name from the list of about 7000 products) and its weight
   
 <p align="center">
 <img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/IMG_20190301_012231.jpg?token=AccQPRxXllUNPHOn8DiguDF6SUley3Fjks5cgbguwA%3D%3D" alt="DiaBeFriend" width="40%">
