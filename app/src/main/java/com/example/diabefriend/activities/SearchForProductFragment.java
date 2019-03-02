@@ -88,6 +88,7 @@ public class SearchForProductFragment extends Fragment {
         proteinNumberView = v.findViewById(R.id.proteinNumberView);
         proteinNumberView.setVisibility(View.INVISIBLE);
 
+
         weightInGramsInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -95,7 +96,7 @@ public class SearchForProductFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                updateProductInfoTextView(products, weightInGramsInput, productName);
+                updateProductInfoTextView(products, productName);
             }
 
             @Override
@@ -116,13 +117,12 @@ public class SearchForProductFragment extends Fragment {
     }
 
 
-    private void updateProductInfoTextView(List<Product> products, EditText weightInGramsInput, String productName) {
-        int weightInGrams = 0;
-        Product product = new Product("", 0, 0, 0, 0, 0);
+    private void updateProductInfoTextView(List<Product> products, String productName) {
+        int weightInGrams = 100;
+        Product product = dataManager.getProductByName(products, productName);
 
         if (!weightInGramsInput.getText().toString().equals("")) {
             try {
-                product = dataManager.getProductByName(products, productName);
                 weightInGrams = getValidWeightInGrams(weightInGramsInput);
                 if (product != null) {
                     setValuesForTextViews(product, weightInGrams);
@@ -191,7 +191,7 @@ public class SearchForProductFragment extends Fragment {
             public void click(String localProductName) {
                 productName = localProductName;
                 choiceTextView.setText(productName);
-                updateProductInfoTextView(products, weightInGramsInput, productName);
+                updateProductInfoTextView(products, productName);
                 updateVisibility();
                 alertDialog.dismiss();
             }
