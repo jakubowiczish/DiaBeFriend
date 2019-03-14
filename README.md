@@ -40,6 +40,12 @@ Timer:
 <img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/timer.jpg" alt="DiaBeFriend" width="40%">
 </p>
 
+Progress bar can be seen after a little while:
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/progressBarTimer.jpg" alt="DiaBeFriend" width="40%">
+</p>
+
 Information about dosage:
 <p align="center">
 <img src="https://raw.githubusercontent.com/jakubowiczish/DiaBeFriend/master/ReadMe/dosageInformation.jpg" alt="DiaBeFriend" width="40%">
