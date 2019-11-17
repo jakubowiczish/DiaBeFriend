@@ -1,3 +1,5 @@
+<img src="https://github.com/jakubowiczish/DiaBeFriend/workflows/Android CI/badge.svg" width="200">
+
 # DiaBeFriend
 
 Simple android application that is dedicated to help you handle your diabetes
