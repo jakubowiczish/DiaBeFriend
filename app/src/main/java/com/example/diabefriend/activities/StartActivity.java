@@ -3,19 +3,18 @@ package com.example.diabefriend.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.diabefriend.R;
 import com.example.diabefriend.dialogs.DialogsManager;
 import com.example.diabefriend.model.Measurement;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-
-import org.apache.commons.lang3.StringUtils;
+import static android.text.TextUtils.isEmpty;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -69,18 +68,23 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private boolean isInputValid(EditText carbohydratesInGramsInput, EditText insulinUnitsInput, EditText sugarLevelInput) {
-        if (StringUtils.isAnyEmpty(
-                carbohydratesInGramsInput.getText().toString(),
-                insulinUnitsInput.getText().toString(),
-                sugarLevelInput.getText().toString())) {
+        if (isAnyTextInputEmpty(carbohydratesInGramsInput, insulinUnitsInput, sugarLevelInput)) {
             return false;
         }
 
         final Measurement measurement = createMeasurementFromInput(carbohydratesInGramsInput, insulinUnitsInput, sugarLevelInput);
 
-        return !(measurement.getInsulinInUnits() <= 0)
+        return measurement.getInsulinInUnits() > 0
                 && measurement.getCarbohydratesInGrams() > 0
                 && measurement.getSugarLevelBeforeMeal() > 0;
+    }
+
+    private boolean isAnyTextInputEmpty(EditText... editTexts) {
+        for (EditText editText : editTexts) {
+            if (isEmpty(editText.getText().toString())) return true;
+        }
+
+        return false;
     }
 
     private Measurement createMeasurementFromInput(EditText carbohydratesInGramsInput, EditText insulinUnitsInput, EditText sugarLevelInput) {
