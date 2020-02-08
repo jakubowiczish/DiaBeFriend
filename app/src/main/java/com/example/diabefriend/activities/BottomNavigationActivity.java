@@ -15,26 +15,6 @@ import android.view.MenuItem;
 
 public class BottomNavigationActivity extends AppCompatActivity {
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            =  new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment selectedFragment = null;
-            switch (item.getItemId()) {
-                case R.id.measurement:
-                    selectedFragment = new MeasurementFragment();
-                    break;
-                case R.id.search_for_product:
-                    selectedFragment = new SearchForProductFragment();
-                    break;
-
-            }
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, selectedFragment).commit();
-            return true;
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,8 +23,28 @@ public class BottomNavigationActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navigation.setOnNavigationItemSelectedListener(createOnNavigationItemListener());
         navigation.setSelectedItemId(R.id.measurement);
+    }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener createOnNavigationItemListener() {
+        return new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment selectedFragment = null;
+                switch (item.getItemId()) {
+                    case R.id.measurement:
+                        selectedFragment = new MeasurementFragment();
+                        break;
+                    case R.id.search_for_product:
+                        selectedFragment = new SearchForProductFragment();
+                        break;
+                }
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, selectedFragment).commit();
+                return true;
+            }
+        };
     }
 
 }

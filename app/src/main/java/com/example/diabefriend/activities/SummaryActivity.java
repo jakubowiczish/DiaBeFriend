@@ -160,11 +160,7 @@ public class SummaryActivity extends AppCompatActivity {
             return false;
         }
 
-        if (Integer.valueOf(sugarLevelInputAfterMeal.getText().toString()) <= 0) {
-            return false;
-        }
-
-        return true;
+        return Integer.valueOf(sugarLevelInputAfterMeal.getText().toString()) > 0;
     }
 
 
@@ -199,7 +195,6 @@ public class SummaryActivity extends AppCompatActivity {
     private void showHappyFace() {
         faceImageView.setImageResource(R.drawable.ic_happy_face);
         faceImageView.setVisibility(View.VISIBLE);
-
     }
 
     private void showSadFace() {

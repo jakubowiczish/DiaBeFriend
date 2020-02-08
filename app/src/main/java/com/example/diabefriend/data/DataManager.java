@@ -24,9 +24,7 @@ public class DataManager {
     public List<Product> readProductsData() {
         List<Product> products = new ArrayList<>();
         InputStream inputStream = context.getResources().openRawResource(R.raw.productsdatabase);
-        BufferedReader bufferedReader = new BufferedReader(
-                new InputStreamReader(inputStream, Charset.forName("UTF-8"))
-        );
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")));
 
         String line = "";
         try {
@@ -68,6 +66,4 @@ public class DataManager {
         }
         return null;
     }
-
-
 }

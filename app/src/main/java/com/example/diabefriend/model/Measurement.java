@@ -4,18 +4,20 @@ package com.example.diabefriend.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+@AllArgsConstructor
 public class Measurement implements Parcelable {
+    
     private int carbohydratesInGrams;
     private float insulinInUnits;
     private int sugarLevelBeforeMeal;
 
-    public Measurement(int carbohydratesInGrams, float insulinInUnits, int sugarLevelBeforeMeal) {
-        this.carbohydratesInGrams = carbohydratesInGrams;
-        this.insulinInUnits = insulinInUnits;
-        this.sugarLevelBeforeMeal = sugarLevelBeforeMeal;
-    }
-
-    public Measurement(Parcel in) {
+    private Measurement(Parcel in) {
         this.carbohydratesInGrams = in.readInt();
         this.insulinInUnits = in.readFloat();
         this.sugarLevelBeforeMeal = in.readInt();
@@ -33,18 +35,6 @@ public class Measurement implements Parcelable {
         }
     };
 
-    public int getCarbohydratesInGrams() {
-        return carbohydratesInGrams;
-    }
-
-    public float getInsulinInUnits() {
-        return insulinInUnits;
-    }
-
-    public int getSugarLevelBeforeMeal() {
-        return sugarLevelBeforeMeal;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -56,6 +46,4 @@ public class Measurement implements Parcelable {
         dest.writeFloat(insulinInUnits);
         dest.writeInt(sugarLevelBeforeMeal);
     }
-
-
 }

@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class StartActivity extends AppCompatActivity {
 
     private EditText carbohydratesInGramsInput;
@@ -29,6 +31,11 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        initializeComponents();
+    }
+
+    private void initializeComponents() {
         dialogsManager = new DialogsManager();
 
         carbohydratesInGramsInput = findViewById(R.id.carbohydratesInGramsInput);
@@ -46,47 +53,41 @@ public class StartActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-
-    private boolean checkWhetherInputIsValid(EditText carbohydratesInGramsInput, EditText insulinUnitsInput, EditText sugarLevelInput) {
-        if (carbohydratesInGramsInput.getText().toString().equals("")
-                || insulinUnitsInput.getText().toString().equals("")
-                || sugarLevelInput.getText().toString().equals("")
-        ) {
-            return false;
-        }
-
-        Measurement measurement = new Measurement(
-                Integer.valueOf(carbohydratesInGramsInput.getText().toString()),
-                Float.valueOf(insulinUnitsInput.getText().toString()),
-                Integer.valueOf(sugarLevelInput.getText().toString())
-        );
-
-        if (measurement.getInsulinInUnits() <= 0 || measurement.getCarbohydratesInGrams() <= 0 || measurement.getSugarLevelBeforeMeal() <= 0) {
-            return false;
-        }
-
-        return true;
-    }
-
-
     private void handleUserInput(EditText carbohydratesInGramsInput, EditText insulinUnitsInput, EditText sugarLevelInput) {
-        boolean inputIsValid = checkWhetherInputIsValid(carbohydratesInGramsInput, insulinUnitsInput, sugarLevelInput);
-
-        if (inputIsValid) {
-            Measurement measurement = new Measurement(
-                    Integer.valueOf(carbohydratesInGramsInput.getText().toString()),
-                    Float.valueOf(insulinUnitsInput.getText().toString()),
-                    Integer.valueOf(sugarLevelInput.getText().toString())
-            );
-
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra(getResources().getString(R.string.measurement_string), measurement);
-            setResult(Activity.RESULT_OK, resultIntent);
-            finish();
-        } else {
+        boolean isInputValid = isInputValid(carbohydratesInGramsInput, insulinUnitsInput, sugarLevelInput);
+        if (!isInputValid) {
             dialogsManager.showInvalidInputDialog(this);
+            return;
         }
+
+        final Measurement measurement = createMeasurementFromInput(carbohydratesInGramsInput, insulinUnitsInput, sugarLevelInput);
+
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra(getResources().getString(R.string.measurement_string), measurement);
+        setResult(Activity.RESULT_OK, resultIntent);
+        finish();
     }
 
+    private boolean isInputValid(EditText carbohydratesInGramsInput, EditText insulinUnitsInput, EditText sugarLevelInput) {
+        if (StringUtils.isAnyEmpty(
+                carbohydratesInGramsInput.getText().toString(),
+                insulinUnitsInput.getText().toString(),
+                sugarLevelInput.getText().toString())) {
+            return false;
+        }
 
+        final Measurement measurement = createMeasurementFromInput(carbohydratesInGramsInput, insulinUnitsInput, sugarLevelInput);
+
+        return !(measurement.getInsulinInUnits() <= 0)
+                && measurement.getCarbohydratesInGrams() > 0
+                && measurement.getSugarLevelBeforeMeal() > 0;
+    }
+
+    private Measurement createMeasurementFromInput(EditText carbohydratesInGramsInput, EditText insulinUnitsInput, EditText sugarLevelInput) {
+        return Measurement.builder()
+                .carbohydratesInGrams(Integer.valueOf(carbohydratesInGramsInput.getText().toString()))
+                .insulinInUnits(Float.valueOf(insulinUnitsInput.getText().toString()))
+                .sugarLevelBeforeMeal(Integer.valueOf(sugarLevelInput.getText().toString()))
+                .build();
+    }
 }

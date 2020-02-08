@@ -9,16 +9,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.diabefriend.R;
-import com.example.diabefriend.data.DataManager;
-import com.example.diabefriend.model.CustomAdapter;
-import com.example.diabefriend.model.OnProductNameClick;
-import com.example.diabefriend.model.Product;
-import com.example.diabefriend.model.Utils;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -26,12 +16,21 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.diabefriend.R;
+import com.example.diabefriend.data.DataManager;
+import com.example.diabefriend.model.CustomAdapter;
+import com.example.diabefriend.model.OnProductNameClick;
+import com.example.diabefriend.model.Product;
+import com.example.diabefriend.model.Utils;
 
+import java.util.List;
+
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class SearchForProductFragment extends Fragment {
-    public SearchForProductFragment() {
-    }
 
-    private List<Product> products = new ArrayList<>();
+    private List<Product> products;
     private TextView weightInGramsTextView;
     private EditText weightInGramsInput;
     private String productName;
@@ -153,7 +152,7 @@ public class SearchForProductFragment extends Fragment {
 
 
     private void showChoiceDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         View v = getLayoutInflater().inflate(R.layout.dialog_choice, null);
         builder.setView(v);
         final AlertDialog alertDialog = builder.create();
@@ -208,7 +207,7 @@ public class SearchForProductFragment extends Fragment {
 
 
     private String determineCaloriesNumberText(Product product, int weightInGrams) {
-        return Utils.decimalFormat.format(weightInGrams * product.getkCal() / product.getWeight()) + " kCal";
+        return Utils.decimalFormat.format(weightInGrams * product.getKCal() / product.getWeight()) + " kCal";
     }
 
 

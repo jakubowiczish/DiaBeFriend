@@ -8,16 +8,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
-
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
 
 import com.example.diabefriend.R;
 import com.example.diabefriend.dialogs.DialogsManager;
@@ -29,17 +27,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Locale;
 
+import lombok.NoArgsConstructor;
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
+
 import static android.content.Context.ALARM_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
 
-
+@NoArgsConstructor
 public class MeasurementFragment extends Fragment {
 
     private static final int START_ACTIVITY_REQUEST_CODE = 1;
     private static final int TIME_TO_TEST_SUGAR_LEVEL_IN_MILLIS = 7200000; // 2 hours = 7200000 millis
-
-    public MeasurementFragment() {
-    }
 
     private DialogsManager dialogsManager;
 
@@ -50,7 +48,7 @@ public class MeasurementFragment extends Fragment {
     private FloatingActionButton mStartButton;
     private FloatingActionButton mResetButton;
 
-    public static boolean mTimerIsRunning;
+    private static boolean mTimerIsRunning;
     private CountDownTimer mCountDownTimer;
     private boolean mCountDownIsFinished;
 
@@ -123,12 +121,9 @@ public class MeasurementFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case (START_ACTIVITY_REQUEST_CODE): {
-                if (resultCode == Activity.RESULT_OK) {
-                    measurement = data.getParcelableExtra(getResources().getString(R.string.measurement_string));
-                }
-                break;
+        if (requestCode == START_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                measurement = data.getParcelableExtra(getResources().getString(R.string.measurement_string));
             }
         }
     }
@@ -137,7 +132,7 @@ public class MeasurementFragment extends Fragment {
     private void setAlarm() {
         Intent intent = new Intent(getContext(), Alarm.class);
 
-        SharedPreferences preferences = getActivity().getSharedPreferences(
+        SharedPreferences preferences = requireActivity().getSharedPreferences(
                 getResources().getString(R.string.preferences_string),
                 MODE_PRIVATE
         );
@@ -149,7 +144,7 @@ public class MeasurementFragment extends Fragment {
         editor.apply();
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 1, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) requireActivity().getSystemService(ALARM_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             alarmManager.setExactAndAllowWhileIdle(
@@ -169,10 +164,10 @@ public class MeasurementFragment extends Fragment {
         Intent intent = new Intent(getContext(), Alarm.class);
         intent.putExtra(
                 getResources().getString(R.string.measurement_string),
-                measurement
-        );
+                measurement);
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 1, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) requireActivity().getSystemService(ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
     }
 
@@ -180,7 +175,7 @@ public class MeasurementFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        SharedPreferences preferences = getActivity().getSharedPreferences(
+        SharedPreferences preferences = requireActivity().getSharedPreferences(
                 getResources().getString(R.string.preferences_string),
                 MODE_PRIVATE
         );
@@ -227,7 +222,7 @@ public class MeasurementFragment extends Fragment {
     public void onStop() {
         super.onStop();
 
-        SharedPreferences preferences = getActivity().getSharedPreferences(
+        SharedPreferences preferences = requireActivity().getSharedPreferences(
                 getResources().getString(R.string.preferences_string),
                 MODE_PRIVATE
         );
@@ -317,7 +312,6 @@ public class MeasurementFragment extends Fragment {
         mProgressBar.setProgress(0);
     }
 
-
     private void updateCountDownTextView() {
         int hours = (int) mTimeLeftInMillis / 1000 / 60 / 60;
         int seconds = (int) mTimeLeftInMillis / 1000 % 60;
@@ -336,7 +330,7 @@ public class MeasurementFragment extends Fragment {
 
 
     private void timerResetButtonDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
 
         builder.setTitle("Confirm");
         builder.setMessage("Are you sure?  The timer will be stopped");

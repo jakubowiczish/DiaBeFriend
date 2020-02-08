@@ -16,7 +16,6 @@ public class DialogsManager {
         alertDialog.show();
     }
 
-
     public void showInvalidInputDialog(Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.invalid_input_dialog).setMessage(R.string.try_again_dialog);
@@ -42,7 +41,6 @@ public class DialogsManager {
 
         createDialogAndShow(builder);
     }
-
 
 
     public void showDosageInformationDialog(Measurement measurement, Context context) {
