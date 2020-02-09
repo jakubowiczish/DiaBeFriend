@@ -1,4 +1,4 @@
-package com.example.diabefriend.model;
+package com.example.diabefriend.notification;
 
 import android.app.Application;
 import android.app.Notification;

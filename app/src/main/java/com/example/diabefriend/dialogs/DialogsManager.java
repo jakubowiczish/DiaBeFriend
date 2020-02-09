@@ -3,11 +3,11 @@ package com.example.diabefriend.dialogs;
 import android.content.Context;
 import android.content.DialogInterface;
 
-import com.example.diabefriend.R;
-import com.example.diabefriend.model.Measurement;
-import com.example.diabefriend.model.Utils;
-
 import androidx.appcompat.app.AlertDialog;
+
+import com.example.diabefriend.R;
+import com.example.diabefriend.model.measurement.Measurement;
+import com.example.diabefriend.utils.Utils;
 
 public class DialogsManager {
 

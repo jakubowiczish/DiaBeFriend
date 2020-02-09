@@ -1,24 +1,23 @@
-package com.example.diabefriend.activities;
+package com.example.diabefriend;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-
-import com.example.diabefriend.R;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-import android.view.MenuItem;
+import com.example.diabefriend.ui.measurement.MeasurementFragment;
+import com.example.diabefriend.ui.search.SearchForProductFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class BottomNavigationActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bottom_navigation);
+        setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

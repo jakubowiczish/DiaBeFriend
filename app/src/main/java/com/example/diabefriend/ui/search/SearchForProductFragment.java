@@ -1,4 +1,4 @@
-package com.example.diabefriend.activities;
+package com.example.diabefriend.ui.search;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,10 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.diabefriend.R;
 import com.example.diabefriend.data.DataManager;
-import com.example.diabefriend.model.CustomAdapter;
-import com.example.diabefriend.model.OnProductNameClick;
-import com.example.diabefriend.model.Product;
-import com.example.diabefriend.model.Utils;
+import com.example.diabefriend.model.product.OnProductNameClick;
+import com.example.diabefriend.model.product.Product;
+import com.example.diabefriend.model.product.ProductListAdapter;
+import com.example.diabefriend.utils.Utils;
 
 import java.util.List;
 
@@ -48,20 +48,16 @@ public class SearchForProductFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        v = inflater.inflate(R.layout.fragment_search, container, false);
         readProductsData();
-
-        v = inflater.inflate(R.layout.activity_search_for_products, container, false);
         assignAndSetComponents();
-
         return v;
     }
-
 
     private void readProductsData() {
         dataManager = new DataManager(getContext());
         products = dataManager.readProductsData();
     }
-
 
     private void assignAndSetComponents() {
         choiceTextView = v.findViewById(R.id.choiceTextView);
@@ -164,7 +160,7 @@ public class SearchForProductFragment extends Fragment {
         RecyclerView recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        final CustomAdapter customAdapter = new CustomAdapter(
+        final ProductListAdapter productListAdapter = new ProductListAdapter(
                 getContext(),
                 productNames
         );
@@ -176,16 +172,16 @@ public class SearchForProductFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                customAdapter.filter(s);
+                productListAdapter.filter(s);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
             }
         });
-        recyclerView.setAdapter(customAdapter);
+        recyclerView.setAdapter(productListAdapter);
 
-        customAdapter.setOnProductNameClick(new OnProductNameClick() {
+        productListAdapter.setOnProductNameClick(new OnProductNameClick() {
             @Override
             public void click(String localProductName) {
                 productName = localProductName;
@@ -200,7 +196,7 @@ public class SearchForProductFragment extends Fragment {
         v.post(new Runnable() {
             @Override
             public void run() {
-                customAdapter.notifyDataSetChanged();
+                productListAdapter.notifyDataSetChanged();
             }
         });
     }

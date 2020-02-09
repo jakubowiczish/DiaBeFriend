@@ -1,4 +1,4 @@
-package com.example.diabefriend.activities;
+package com.example.diabefriend.ui.summary;
 
 
 import android.content.SharedPreferences;
@@ -6,13 +6,6 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-
-import com.example.diabefriend.dialogs.DialogsManager;
-import com.example.diabefriend.model.Measurement;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -21,17 +14,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.example.diabefriend.R;
-import com.example.diabefriend.model.ResultMeasurement;
-import com.example.diabefriend.model.Utils;
+import com.example.diabefriend.dialogs.DialogsManager;
+import com.example.diabefriend.model.measurement.Measurement;
+import com.example.diabefriend.model.measurement.ResultMeasurement;
+import com.example.diabefriend.utils.Utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class SummaryActivity extends AppCompatActivity {
 
     private Measurement measurement;
-    private ResultMeasurement resultMeasurement;
     private EditText sugarLevelInputAfterMeal;
-    private Button summarizeButton;
 
     private TextView carbohydratesText;
     private TextView insulinText;
@@ -96,7 +92,7 @@ public class SummaryActivity extends AppCompatActivity {
 
         sugarLevelInputAfterMeal = findViewById(R.id.sugarLevelInputAfterMeal);
 
-        summarizeButton = findViewById(R.id.summarizeButton);
+        Button summarizeButton = findViewById(R.id.summarizeButton);
         summarizeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,7 +148,6 @@ public class SummaryActivity extends AppCompatActivity {
         sugarBeforeImage.setVisibility(View.VISIBLE);
         sugarAfterImage.setVisibility(View.VISIBLE);
         faceImageView.setVisibility(View.VISIBLE);
-
     }
 
     private boolean checkSugarLevelInput() {
@@ -168,7 +163,7 @@ public class SummaryActivity extends AppCompatActivity {
         boolean inputIsValid = checkSugarLevelInput();
 
         if (inputIsValid) {
-            resultMeasurement = new ResultMeasurement(
+            ResultMeasurement resultMeasurement = new ResultMeasurement(
                     measurement,
                     Integer.valueOf(sugarLevelInputAfterMeal.getText().toString())
             );

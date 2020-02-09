@@ -1,4 +1,4 @@
-package com.example.diabefriend.activities;
+package com.example.diabefriend.ui.add_measurement;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,11 +12,11 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.diabefriend.R;
 import com.example.diabefriend.dialogs.DialogsManager;
-import com.example.diabefriend.model.Measurement;
+import com.example.diabefriend.model.measurement.Measurement;
 
 import static android.text.TextUtils.isEmpty;
 
-public class StartActivity extends AppCompatActivity {
+public class AddMeasurementActivity extends AppCompatActivity {
 
     private EditText carbohydratesInGramsInput;
     private EditText insulinUnitsInput;
@@ -27,10 +27,9 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start);
+        setContentView(R.layout.activity_add_measurement);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         initializeComponents();
     }
 

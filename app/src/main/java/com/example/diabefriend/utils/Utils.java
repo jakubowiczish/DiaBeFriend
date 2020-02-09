@@ -1,7 +1,8 @@
-package com.example.diabefriend.model;
+package com.example.diabefriend.utils;
 
 import android.content.SharedPreferences;
 
+import com.example.diabefriend.model.measurement.Measurement;
 import com.google.gson.Gson;
 
 import java.text.DecimalFormat;

@@ -1,4 +1,4 @@
-package com.example.diabefriend.model;
+package com.example.diabefriend.alarm;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import com.example.diabefriend.R;
-import com.example.diabefriend.activities.SummaryActivity;
+import com.example.diabefriend.ui.summary.SummaryActivity;
 
 public class Alarm extends BroadcastReceiver {
 

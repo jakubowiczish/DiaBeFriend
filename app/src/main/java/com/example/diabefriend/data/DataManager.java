@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.diabefriend.R;
-import com.example.diabefriend.model.Product;
+import com.example.diabefriend.model.product.Product;
 
 import java.io.BufferedReader;
 import java.io.IOException;

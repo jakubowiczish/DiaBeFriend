@@ -1,4 +1,4 @@
-package com.example.diabefriend.activities;
+package com.example.diabefriend.ui.measurement;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -18,10 +18,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.diabefriend.R;
+import com.example.diabefriend.alarm.Alarm;
 import com.example.diabefriend.dialogs.DialogsManager;
-import com.example.diabefriend.model.Alarm;
-import com.example.diabefriend.model.Measurement;
-import com.example.diabefriend.model.Utils;
+import com.example.diabefriend.model.measurement.Measurement;
+import com.example.diabefriend.ui.add_measurement.AddMeasurementActivity;
+import com.example.diabefriend.utils.Utils;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -63,12 +64,12 @@ public class MeasurementFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.activity_timer, container, false);
+        v = inflater.inflate(R.layout.fragment_measurement, container, false);
 
         v.findViewById(R.id.startActivityFloatingButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(getContext(), StartActivity.class), START_ACTIVITY_REQUEST_CODE);
+                startActivityForResult(new Intent(getContext(), AddMeasurementActivity.class), START_ACTIVITY_REQUEST_CODE);
             }
         });
 

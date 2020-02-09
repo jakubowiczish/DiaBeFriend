@@ -1,8 +1,9 @@
-package com.example.diabefriend.model;
+package com.example.diabefriend.model.measurement;
 
 import lombok.Getter;
 
 @Getter
+
 public class ResultMeasurement {
 
     private Measurement measurement;

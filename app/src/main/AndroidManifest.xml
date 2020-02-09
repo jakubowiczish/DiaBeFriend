@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.diabefriend">
 
     <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
-        android:name=".model.NotificationChannels"
+        android:name=".notification.NotificationChannels"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".activities.BottomNavigationActivity"
+            android:name=".MainActivity"
             android:label="@string/application_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,27 +24,20 @@
         </activity>
 
         <activity
-            android:name=".activities.InformationActivity"
-            android:label="@string/title_activity_information"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-        <activity
-            android:name=".activities.SummaryActivity"
+            android:name=".ui.summary.SummaryActivity"
             android:label="@string/title_activity_summary"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
-        <receiver android:name=".model.Alarm" />
+        <receiver android:name=".alarm.Alarm" />
 
         <activity
-            android:name=".activities.StartActivity"
+            android:name=".ui.add_measurement.AddMeasurementActivity"
             android:label="@string/title_activity_start"
-            android:parentActivityName=".activities.BottomNavigationActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.diabefriend.activities.BottomNavigationActivity" />
+                android:value="com.example.diabefriend.MainActivity" />
         </activity>
     </application>
 

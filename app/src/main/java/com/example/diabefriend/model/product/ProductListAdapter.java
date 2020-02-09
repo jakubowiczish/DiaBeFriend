@@ -1,4 +1,4 @@
-package com.example.diabefriend.model;
+package com.example.diabefriend.model.product;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,14 +7,15 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.diabefriend.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
+public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ProductViewHolder> {
 
     private final ArrayList<String> filteredProductNames;
     private LayoutInflater inflater;
@@ -22,21 +23,22 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     private OnProductNameClick onProductNameClick;
 
 
-    public CustomAdapter(Context context, List<String> productNames) {
+    public ProductListAdapter(Context context, List<String> productNames) {
         inflater = LayoutInflater.from(context);
         this.productNames = productNames;
         this.filteredProductNames = new ArrayList<>(productNames);
     }
 
+    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.custom_layout, parent, false);
-        return new MyViewHolder(view);
+    public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = inflater.inflate(R.layout.product_adapter_element, parent, false);
+        return new ProductViewHolder(view);
     }
 
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(ProductViewHolder holder, final int position) {
         holder.productNameTextView.setText(filteredProductNames.get(position));
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,11 +67,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         this.onProductNameClick = onProductNameClick;
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    class ProductViewHolder extends RecyclerView.ViewHolder {
         private final LinearLayout linearLayout;
         TextView productNameTextView;
 
-        MyViewHolder(View itemView) {
+        ProductViewHolder(View itemView) {
             super(itemView);
             productNameTextView = itemView.findViewById(R.id.holderTextView);
             linearLayout = itemView.findViewById(R.id.holderLinearLayout);
