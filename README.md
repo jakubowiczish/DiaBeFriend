@@ -1,3 +1,9 @@
+<img src="https://img.shields.io/github/languages/code-size/jakubowiczish/DiaBeFriend?style=for-the-badge"> <img src="https://img.shields.io/github/repo-size/jakubowiczish/DiaBeFriend?color=purple&style=for-the-badge"> 
+<img src="https://img.shields.io/github/languages/count/jakubowiczish/DiaBeFriend?color=green&style=for-the-badge"> 
+<img src="https://img.shields.io/github/languages/top/jakubowiczish/DiaBeFriend?color=orange&style=for-the-badge">
+<img src="https://img.shields.io/github/commit-activity/m/jakubowiczish/DiaBeFriend?color=lime&style=for-the-badge">
+<img src="https://img.shields.io/github/last-commit/jakubowiczish/DiaBeFriend?color=darkgreen&style=for-the-badge">
+<img src="https://img.shields.io/github/workflow/status/jakubowiczish/DiaBeFriend/Android CI?style=for-the-badge">
 <img src="https://github.com/jakubowiczish/DiaBeFriend/workflows/Android CI/badge.svg" width="200">
 
 # DiaBeFriend
