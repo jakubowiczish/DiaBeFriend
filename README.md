@@ -3,8 +3,11 @@
 <img src="https://img.shields.io/github/languages/top/jakubowiczish/DiaBeFriend?color=orange&style=for-the-badge">
 <img src="https://img.shields.io/github/commit-activity/m/jakubowiczish/DiaBeFriend?color=lime&style=for-the-badge">
 <img src="https://img.shields.io/github/last-commit/jakubowiczish/DiaBeFriend?color=darkgreen&style=for-the-badge">
-<img src="https://img.shields.io/github/workflow/status/jakubowiczish/DiaBeFriend/Android CI?style=for-the-badge">
-<img src="https://github.com/jakubowiczish/DiaBeFriend/workflows/Android CI/badge.svg" width="200">
+
+<img src="https://github.com/jakubowiczish/DiaBeFriend/workflows/Android CI/badge.svg" width="220"> <img src="https://tokei.rs/b1/github/jakubowiczish/DiaBeFriend?category=code" width="200"> 
+<img src="https://tokei.rs/b1/github/jakubowiczish/DiaBeFriend?category=lines" width="175">
+<img src="https://tokei.rs/b1/github/jakubowiczish/DiaBeFriend?category=files" width="90">
+
 
 # DiaBeFriend
 
